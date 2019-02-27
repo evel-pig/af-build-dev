@@ -6,7 +6,9 @@ module.exports = function () {
 
   const service = new Service();
 
-  console.log(service.webpackConfig.module.rules)
+  let server = null;
+
+  service.applyPlugins('onStart');
 
   dev({
     webpackConfig: service.webpackConfig,
@@ -18,6 +20,24 @@ module.exports = function () {
     _beforeServerWithApp(app) {
       // @private
       service.applyPlugins('beforeServerWithApp', { args: { app } });
+    },
+    beforeServer(devServer) {
+      server = devServer;
+      service.applyPlugins('beforeDevServer', {
+        args: { app: devServer },
+      });
+    },
+    afterServer(devServer) {
+      service.applyPlugins('afterDevServer', {
+        args: { app: devServer },
+      });
+    },
+    onCompileDone({ isFirstCompile, stats }) {
+      service.applyPlugins('onDevCompileDone', {
+        args: {
+          stats,
+        },
+      });
     },
   })
 }

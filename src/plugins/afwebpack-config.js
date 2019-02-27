@@ -13,14 +13,14 @@ module.exports = function (pluginApi) {
       memo.entry = utils.insertEntry(memo.entry, [webpackHotDevClientPath]);
     }
 
-    const afRc = pluginApi.service.config;
+    const afConfig = pluginApi.service.config;
 
-    if (isPlainObject(afRc.html)) {
+    if (isPlainObject(afConfig.html)) {
       // 注入html插件
       memo.plugins.push(new HtmlWebpackPlugin({
         inject: true,
-        template: resolve(utils.paths.publicPath, 'index.html'),
-        ...(afRc.html || {})
+        template: resolve(utils.paths.templatePath, 'index.html'),
+        ...(afConfig.html || {})
       }))
     }
 

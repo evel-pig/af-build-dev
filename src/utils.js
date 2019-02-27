@@ -12,6 +12,8 @@ exports.paths = {
   mockConfig: resolve('proxy.config.js'),
   adminTmpPath: resolve('src/.admintmp'),
   publicPath: resolve('public'),
+  templatePath: resolve('template'),
+  serverPath: resolve('server'),
 };
 
 exports.insertEntry = (entry, others = []) => {

@@ -8,11 +8,20 @@ module.exports = function () {
 
   build({
     webpackConfig: service.webpackConfig,
-    onSuccess: ({ stats }) => {
-      console.log(stats.toString({
-        colors: true,
-        children: false,
-      }));
+    onSuccess({ stats }) {
+      service.applyPlugins('onBuildSuccess', {
+        args: {
+          stats,
+        },
+      });
+    },
+    onFail({ err, stats }) {
+      service.applyPlugins('onBuildFail', {
+        args: {
+          err,
+          stats,
+        },
+      });
     },
   })
 }
