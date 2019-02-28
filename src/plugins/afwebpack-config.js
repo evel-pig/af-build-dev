@@ -9,10 +9,11 @@ module.exports = function (pluginApi) {
     const webpackrc = {
       ...memo,
       publicPath: '/',
-      disableDynamicImport: true,
+      disableDynamicImport: false,
       urlLoaderExcludes: [/\.html$/], // 避免url-loader打包html文件
       hash: isDev ? false : true,
       extraBabelPlugins: [
+        [require.resolve('@babel/plugin-syntax-dynamic-import')],
         [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }],
         [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: true }, 'antd-mobile'],
         ...(memo.extraBabelPlugins || []),

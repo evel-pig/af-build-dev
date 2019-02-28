@@ -1,7 +1,7 @@
 {
   "name": "@epig/af-build-dev",
   "version": "1.0.8",
-  "description": "",
+  "description": "基于af-webpack的前端构建编译工具",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,19 +9,24 @@
     "patch": "npm version patch",
     "pub": "npm run patch && npm publish && npm run push"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "epig",
+    "evel-pig",
+    "af-webpack"
+  ],
+  "author": "@epig",
   "license": "ISC",
   "files": [
     "bin",
     "src"
   ],
   "bin": {
-    "af": "./bin/index.js"
+    "epig": "./bin/index.js"
   },
   "dependencies": {
     "af-webpack": "1.5.3",
     "html-webpack-plugin": "3.2.0",
-    "babel-plugin-import": "1.11.0"
+    "babel-plugin-import": "1.11.0",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0"
   }
 }

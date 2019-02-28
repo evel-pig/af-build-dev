@@ -12,8 +12,8 @@ $ npm i @epig/af-build-dev --save-dev
 ### cli
 
 ```bash
-$ af dev # 启动开发服务器
-$ af build # 构建项目
+$ epig dev # 启动开发服务器
+$ epig build # 构建项目
 ```
 
 ### 配置项
@@ -29,10 +29,11 @@ $ af build # 构建项目
   const webpackrc = {
     ...memo,
     publicPath: '/',
-    disableDynamicImport: true,
+    disableDynamicImport: false,
     urlLoaderExcludes: [/\.html$/], // 避免url-loader打包html文件
     hash: isDev ? false : true,
     extraBabelPlugins: [
+      [require.resolve('@babel/plugin-syntax-dynamic-import')],
       [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }],
       [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: true }, 'antd-mobile'],
       ...(memo.extraBabelPlugins || []),
