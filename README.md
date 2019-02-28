@@ -21,7 +21,7 @@ $ af build # 构建项目
 #### .webpackrc.js 配置项
 参考[af-webpack](https://umijs.org/zh/config/#webpack)中的webpack配置项
 
-由于af-build-dev内建chainWebpack支持,请不要chainWebpack配置项，其他配置项和合并到内置配置项。
+由于af-build-dev内建chainConfig支持,请不要配置chainConfig，其他配置项和合并到内置配置项。
 
 内置配置项
 
