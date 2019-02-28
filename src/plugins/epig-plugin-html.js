@@ -4,13 +4,11 @@ const { isPlainObject } = require('lodash');
 const utils = require('../utils');
 
 module.exports = function (pluginApi) {
-  pluginApi.register('chainWebpackConfig', ({ args: { webpackConfig } }) => {
-
-    const epigConfig = pluginApi.service.config;
+  pluginApi.register('chainWebpackConfig', ({ args: { webpackConfig }, opts = {} }) => {
 
     let htmlConfigs;
-    if (Array.isArray(epigConfig.html)) {
-      htmlConfigs = epigConfig.html;
+    if (Array.isArray(opts)) {
+      htmlConfigs = opts;
     } else {
       let template;
       if (fs.existsSync(resolve(utils.paths.templatePath, 'index.html'))) {
@@ -19,7 +17,7 @@ module.exports = function (pluginApi) {
       htmlConfigs = [{
         inject: true,
         ...(template ? { template } : {}),
-        ...(isPlainObject(epigConfig.html) ? epigConfig.html : {})
+        ...(isPlainObject(opts) ? opts : {})
       }]
     }
 

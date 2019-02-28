@@ -40,7 +40,7 @@ $ epig build # 构建项目
     ...memo,
     publicPath: '/',
     disableDynamicImport: false,
-    urlLoaderExcludes: [/\.html$/], // 避免url-loader打包html文件
+    urlLoaderExcludes: [/\.(html|ejs)$/], // 避免url-loader打包html/ejs文件
     hash: isDev ? false : true,
     extraBabelPlugins: [
       [require.resolve('@babel/plugin-syntax-dynamic-import')],
@@ -89,13 +89,6 @@ chainWebpack(config, { webpack }) {
  
 ```
 
-#### html
-
-- 类型: Array | Object
-
-参考[html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#options)配置项
-
-
 ## plugins
 
 内置插件
@@ -103,18 +96,42 @@ chainWebpack(config, { webpack }) {
 ```
 const builtInPlugins = [
   'afwebpack-config',
-  'epig-plugin-html',
   'epig-plugin-mock',
-  'epig-plugin-copy-server',
 ];
 ```
 
 ### afwebpack-config
+内置自定义webpack配置项
+
+### epig-plugin-mock
+mock功能
 
 ### epig-plugin-admin
 
+管理后台
+
+- 类型: Object
+
+| NAME | NOTES | TYPE | DEFAULT_VALUE |
+| --- | --- | --- | --- |
+| noAutoEntry | 禁止自动生成入口 | boolean | undefined |
+| noAutoRoute | 禁止自动生成路由 | boolean | undefined |
+| noAutoModel | 禁止自动生成model | boolean | undefined |
+| async | - | boolean | undefined | 
+
 ### epig-plugin-html
 
-### epig-plugin-mock
+配置HTML模板
+
+- 类型: Array | Object
+
+参考[html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#options)配置项
 
 ### epig-plugin-copy-server
+拷贝项目根目录的`server`文件夹
+
+- 类型: Object
+
+| NAME | NOTES | TYPE | DEFAULT_VALUE |
+| --- | --- | --- | --- |
+| output | 输出目录 | string | 同webpack.output.path |

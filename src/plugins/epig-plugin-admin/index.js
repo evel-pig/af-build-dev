@@ -15,11 +15,11 @@ module.exports = function (pluginApi) {
 
     generateTmpFolder();
 
-    if (opts.entry !== false) {
+    if (!opts.noAutoEntry) {
       adminEntry(pluginApi, opts);
     }
 
-    if (opts.route !== false) {
+    if (!opts.noAutoRoute) {
       adminRoute(pluginApi, opts);
     }
   });

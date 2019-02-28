@@ -3,12 +3,17 @@ const chalk = require('chalk');
 const utils = require('../utils');
 
 module.exports = function (pluginApi) {
-  pluginApi.register('onBuildSuccess', ({ args: { stats } }) => {
-
-    const webpackConfig = pluginApi.service.webpackConfig;
+  pluginApi.register('onBuildSuccess', ({ args: { stats }, opts = {} }) => {
 
     if (fse.pathExistsSync(utils.paths.serverPath)) {
-      const distPath = webpackConfig.output.path;
+      const webpackConfig = pluginApi.service.webpackConfig;
+      let distPath;
+      if (opts.output) {
+        distPath = utils.resolveApp(opts.output);
+      } else {
+        distPath = webpackConfig.output.path;
+      }
+
       fse.copy(utils.paths.serverPath, distPath, {
         filter: (src) => {
           const skip = src.includes('node_modules');

@@ -6,9 +6,7 @@ const { paths } = require('./utils');
 // 内置插件
 const builtInPlugins = [
   'afwebpack-config',
-  'epig-plugin-html',
   'epig-plugin-mock',
-  'epig-plugin-copy-server',
 ];
 
 const pluginNames = fs.readdirSync(paths.pluginsPath).map(name =>
