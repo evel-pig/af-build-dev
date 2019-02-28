@@ -6,19 +6,25 @@ module.exports = function (service) {
 
   const config = service.config;
 
-  // 通过af-buildd-dev内建.webpackrc.js的配置项，不再通过读取配置文件获取
+  // 读取用户 .webpackrc ;
+  const webpackrc = getUserConfig();
+
+  // 合并用户 .webpackrc 以及内建afWebpackOpts
   const afWebpackOpts = service.applyPlugins('modifyAFWebpackOpts', {
     initialValue: {
       cwd: service.cwd,
+      ...webpackrc.config,
     },
   });
 
+  // afWebpackOpts(.webpackrc)中不应该有chainConfig配置项;
   assert(
     !('chainConfig' in afWebpackOpts),
     `chainConfig should not supplied in modifyAFWebpackOpts`,
   );
 
   afWebpackOpts.chainConfig = webpackConfig => {
+    // 可通过chainWebpackConfig方式修改用户配置，比modifyWebpackConfig更灵活
     service.applyPlugins('chainWebpackConfig', {
       args: {
         webpackConfig: webpackConfig,
@@ -34,6 +40,7 @@ module.exports = function (service) {
 
   };
 
+  // 可对最终的webpack config进行修改;
   return service.applyPlugins('modifyWebpackConfig', {
     initialValue: getConfig(afWebpackOpts),
   });
