@@ -1,5 +1,5 @@
 /* tslint:disable */
-import TTApp from 'dfxk-admin-tools/lib/app';
+import TTApp from '@epig/admin-tools';
 import { reducers, sagas } from '../models';
 
 import config from '../entry.config';
