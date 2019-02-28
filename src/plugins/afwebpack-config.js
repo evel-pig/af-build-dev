@@ -10,7 +10,7 @@ module.exports = function (pluginApi) {
       ...memo,
       publicPath: '/',
       disableDynamicImport: false,
-      urlLoaderExcludes: [/\.html$/], // 避免url-loader打包html文件
+      urlLoaderExcludes: [/\.(html|ejs)$/], // 避免url-loader打包html/ejs文件
       hash: isDev ? false : true,
       extraBabelPlugins: [
         [require.resolve('@babel/plugin-syntax-dynamic-import')],

@@ -1,5 +1,5 @@
 # af-build-dev
-> 基于af-webpack的前端构建编译工具
+> 基于[af-webpack](https://github.com/umijs/umi/tree/master/packages/af-webpack)的前端构建编译工具
 
 ## usage
 
@@ -17,6 +17,16 @@ $ epig build # 构建项目
 ```
 
 ### 配置项
+
+#### 环境变量
+
+只列部分，详细参考af-webpack源码;
+
+| NAME | NOTES | DEFAULT_VALUE |
+| --- | --- | --- |
+| PROT | 服务器端口 | 8000 |
+| ANALYZE | `webpack-bundle-analyzer`插件开关 | undefined |
+| SPEED_MEASURE | `speed-measure-webpack-plugin`插件开关 | undefined |
 
 #### .webpackrc.js 配置项
 参考[af-webpack](https://umijs.org/zh/config/#webpack)中的webpack配置项

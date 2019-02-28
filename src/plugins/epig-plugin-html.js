@@ -1,4 +1,5 @@
 const { resolve } = require('path');
+const fs = require('fs');
 const { isPlainObject } = require('lodash');
 const utils = require('../utils');
 
@@ -11,10 +12,14 @@ module.exports = function (pluginApi) {
     if (Array.isArray(epigConfig.html)) {
       htmlConfigs = epigConfig.html;
     } else {
+      let template;
+      if (fs.existsSync(resolve(utils.paths.templatePath, 'index.html'))) {
+        template = resolve(utils.paths.templatePath, 'index.html');
+      }
       htmlConfigs = [{
         inject: true,
-        template: resolve(utils.paths.templatePath, 'index.html'),
-        ...(isPlainObject(isPlainObject) ? epigConfig.html : {})
+        ...(template ? { template } : {}),
+        ...(isPlainObject(epigConfig.html) ? epigConfig.html : {})
       }]
     }
 
