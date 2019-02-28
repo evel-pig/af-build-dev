@@ -8,6 +8,7 @@ const builtInPlugins = [
   'afwebpack-config',
   'epig-plugin-html',
   'epig-plugin-mock',
+  'epig-plugin-copy-server',
 ];
 
 const pluginNames = fs.readdirSync(paths.pluginsPath).map(name =>
@@ -32,17 +33,24 @@ module.exports = function (config = {}) {
       p = p[0];
     }
 
-    if (pluginNames.includes(p)) {
-      const pluginPath = resolve(paths.pluginsPath, p);
-      const apply = require(pluginPath); // eslint-disable-line
-
+    if (typeof p === 'string') {
+      if (pluginNames.includes(p)) {
+        const pluginPath = resolve(paths.pluginsPath, p);
+        const apply = require(pluginPath); // eslint-disable-line
+        pluginsObj.push({
+          id: p,
+          apply: apply.default || apply,
+          opts: opts,
+        })
+      } else {
+        console.log(`插件${chalk.red(p)}不在以下插件列表中\n${pluginNames.join('\n')}\n`)
+      }
+    } else if (typeof p === 'function') {
       pluginsObj.push({
-        id: p,
-        apply: apply.default || apply,
+        id: p.name || Math.floor(Math.random() * 100000000),
+        apply: p,
         opts: opts,
       })
-    } else {
-      console.log(`插件${chalk.red(p)}不在以下插件列表中\n${pluginNames.join('\n')}\n`)
     }
   })
 
