@@ -7,19 +7,13 @@ module.exports = function (pluginApi) {
 
     const epigConfig = pluginApi.service.config;
 
-    let htmlConfig;
-
-    if (epigConfig.html && isPlainObject(epigConfig.html)) {
-      htmlConfig = [{
-        inject: true,
-        template: resolve(utils.paths.templatePath, 'index.html'),
-        ...(epigConfig.html || {})
-      }]
-    }
-
     webpackConfig
       .plugin('html-webpack-plugin')
-      .use(require('html-webpack-plugin'), htmlConfig);
+      .use(require('html-webpack-plugin'), [{
+        inject: true,
+        template: resolve(utils.paths.templatePath, 'index.html'),
+        ...(isPlainObject(isPlainObject) ? epigConfig.html : {})
+      }]);
 
   });
 }
