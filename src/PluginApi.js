@@ -1,4 +1,5 @@
 const assert = require('assert');
+const chalk = require('chalk');
 
 module.exports = class PluginApi {
   constructor(id, opts, service) {
@@ -23,7 +24,7 @@ module.exports = class PluginApi {
         opts: this.opts,
       });
     } else {
-      console.error(`将要注册的method(${method})不存在已有methods(${this.service.pluginMethods})中`);
+      console.error(`将要注册的method(${chalk.red(method)})不存在已有methods:\n${Object.keys(this.service.pluginMethods).join('\n')}`);
       process.exit(1);
     }
   }

@@ -8,7 +8,7 @@ module.exports = function (pluginApi, opts) {
 
   const isDev = process.env.NODE_ENV === 'development';
 
-  pluginApi.register('modifyWebpackConfig', ({ memo }) => {
+  pluginApi.register('modifyAFWebpackOpts', ({ memo }) => {
     memo.entry = {
       app: isDev ? [
         path.resolve(utils.paths.adminTmpPath, 'entry.tsx'),

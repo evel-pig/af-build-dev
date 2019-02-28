@@ -1,11 +1,13 @@
 const fs = require('fs');
+const chalk = require('chalk');
 const { resolve } = require('path');
 const { paths } = require('./utils');
 
 // 内置插件
 const builtInPlugins = [
-  'mock',
   'afwebpack-config',
+  'epig-plugin-html',
+  'epig-plugin-mock',
 ];
 
 const pluginNames = fs.readdirSync(paths.pluginsPath).map(name =>
@@ -40,7 +42,7 @@ module.exports = function (config = {}) {
         opts: opts,
       })
     } else {
-      console.log(`插件${p}不在插件列表(${pluginNames})中`)
+      console.log(`插件${chalk.red(p)}不在以下插件列表中\n${pluginNames.join('\n')}\n`)
     }
   })
 

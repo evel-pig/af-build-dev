@@ -7,7 +7,7 @@ const adminRoute = require('./admin-route');
 
 module.exports = function (pluginApi) {
   const entryConfigPath = utils.resolveApp('src/entry.config.ts');
-  pluginApi.register('afterInitPlugins', ({ opts = {} }) => {
+  pluginApi.register('register', ({ opts = {} }) => {
 
     if (!fs.existsSync(entryConfigPath)) {
       throw new Error(`entry config(${entryConfigPath})不存在`);

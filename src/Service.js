@@ -22,7 +22,7 @@ module.exports = class Service {
     // 注册插件
     this.initialPlugins();
 
-    this.applyPlugins('afterInitPlugins');
+    this.applyPlugins('register');
 
     // 获取webpack配置
     this.webpackConfig = getWebpackConfig(this);
@@ -30,7 +30,9 @@ module.exports = class Service {
 
   registerMethod() {
     [
-      'afterInitPlugins',
+      'register',
+      'modifyAFWebpackOpts',
+      'chainWebpackConfig',
       'modifyWebpackConfig',
       // dev
       'onStart',

@@ -11,7 +11,7 @@ module.exports = function (pluginApi, opts) {
 
   const { async, noAutoModel } = opts;
 
-  pluginApi.register('modifyWebpackConfig', ({ memo }) => {
+  pluginApi.register('modifyAFWebpackOpts', ({ memo }) => {
     const dev = process.env.NODE_ENV === 'development';
 
     if (dev && async) {
