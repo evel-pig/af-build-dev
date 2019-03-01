@@ -37,13 +37,10 @@ module.exports = function (pluginApi) {
         webpackrc.entry = {
           app: [utils.paths.jsxEntryPath],
         };
-      } else {
-        console.error(`找不到入口,请在 .epigrc 配置入口${chalk.red('entry')}`);
-        process.exit(1);
       }
     }
 
-    if (isDev) {
+    if (webpackrc.entry && isDev) {
       webpackrc.entry = utils.insertEntry(webpackrc.entry, [webpackHotDevClientPath]);
     }
 
