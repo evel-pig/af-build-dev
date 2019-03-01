@@ -8,9 +8,14 @@ module.exports = function (pluginApi) {
 
     const isDev = process.env.NODE_ENV === 'development';
 
+    // 可将 .epigrc 里面除了(chainWebpack,plugins)配置项外合并到webpackOpts中;
+    const { chainWebpack, plugins, ...rest } = pluginApi.service.config;
+
     const webpackrc = {
-      ...memo,
+      ...memo, // .webpackrc.js 配置项
+      ...rest, // .epigrc.js配置项
       publicPath: '/',
+      ignoreMomentLocale: true,
       disableDynamicImport: false,
       urlLoaderExcludes: [/\.(html|ejs)$/], // 避免url-loader打包html/ejs文件;
       hash: isDev ? false : true,
@@ -22,6 +27,7 @@ module.exports = function (pluginApi) {
       ],
     }
 
+    // 自动注册入口
     if (!webpackrc.entry) {
       if (fs.existsSync(utils.paths.tsxEntryPath)) {
         webpackrc.entry = {

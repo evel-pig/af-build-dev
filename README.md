@@ -37,10 +37,12 @@ $ epig build # 构建项目
 
 ```JavaScript
   const webpackrc = {
-    ...memo,
+    ...memo, // .webpackrc.js 配置项
+    ...rest, // .epigrc.js配置项
     publicPath: '/',
+    ignoreMomentLocale: true,
     disableDynamicImport: false,
-    urlLoaderExcludes: [/\.(html|ejs)$/], // 避免url-loader打包html/ejs文件
+    urlLoaderExcludes: [/\.(html|ejs)$/], // 避免url-loader打包html/ejs文件;
     hash: isDev ? false : true,
     extraBabelPlugins: [
       [require.resolve('@babel/plugin-syntax-dynamic-import')],
@@ -52,6 +54,8 @@ $ epig build # 构建项目
 ```
 
 #### .epigrc.js 配置项
+
+> 在此配置文件中也可以配置 .webpackrc.js 的同名配置项，会合并使用(优先级:.epingrc.js>.webpackrc.js), 但是配置在此的配置项不会进行检查。
 
 ##### plugins
 

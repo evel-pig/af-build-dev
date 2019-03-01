@@ -63,7 +63,7 @@ module.exports = function (config = {}) {
     pluginArray.push({
       id: 'epig-plugin-html',
       apply: apply,
-      opts: undefined,
+      opts: {},
     })
   }
 
