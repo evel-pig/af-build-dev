@@ -22,7 +22,9 @@ module.exports = function (config = {}) {
     ...plugins,
   ];
 
-  const pluginsObj = [];
+  const pluginArray = [];
+
+  let existsHtmlPlugin = false;
 
   mergePlugins.forEach(p => {
     let opts;
@@ -32,10 +34,13 @@ module.exports = function (config = {}) {
     }
 
     if (typeof p === 'string') {
+      if (p === 'epig-plugin-html') {
+        existsHtmlPlugin = true;
+      }
       if (pluginNames.includes(p)) {
         const pluginPath = resolve(paths.pluginsPath, p);
         const apply = require(pluginPath); // eslint-disable-line
-        pluginsObj.push({
+        pluginArray.push({
           id: p,
           apply: apply.default || apply,
           opts: opts,
@@ -44,7 +49,7 @@ module.exports = function (config = {}) {
         console.log(`插件${chalk.red(p)}不在以下插件列表中\n${pluginNames.join('\n')}\n`)
       }
     } else if (typeof p === 'function') {
-      pluginsObj.push({
+      pluginArray.push({
         id: p.name || Math.floor(Math.random() * 100000000),
         apply: p,
         opts: opts,
@@ -52,5 +57,15 @@ module.exports = function (config = {}) {
     }
   })
 
-  return pluginsObj;
+  // 如果没有html插件就自动添加;
+  if (!existsHtmlPlugin) {
+    const apply = require('./plugins/epig-plugin-html');
+    pluginArray.push({
+      id: 'epig-plugin-html',
+      apply: apply,
+      opts: undefined,
+    })
+  }
+
+  return pluginArray;
 }

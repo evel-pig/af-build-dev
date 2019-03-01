@@ -14,6 +14,8 @@ exports.paths = {
   publicPath: resolve('public'),
   templatePath: resolve('template'),
   serverPath: resolve('server'),
+  tsxEntryPath: resolve('src/index.tsx'),
+  jsxEntryPath: resolve('src/index.jsx'),
 };
 
 exports.insertEntry = (entry, others = []) => {
