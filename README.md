@@ -101,9 +101,11 @@ const builtInPlugins = [
 ```
 
 ### afwebpack-config
+
 内置自定义webpack配置项
 
 ### epig-plugin-mock
+
 mock功能
 
 ### epig-plugin-admin
@@ -128,6 +130,7 @@ mock功能
 参考[html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#options)配置项
 
 ### epig-plugin-copy-server
+
 拷贝项目根目录的`server`文件夹
 
 - 类型: Object
@@ -135,3 +138,12 @@ mock功能
 | NAME | NOTES | TYPE | DEFAULT_VALUE |
 | --- | --- | --- | --- |
 | output | 输出目录 | string | 同webpack.output.path |
+
+### epig-plugin-hd
+
+配置移动端的高清方案
+
+| NAME | NOTES | TYPE | DEFAULT_VALUE |
+| --- | --- | --- | --- |
+| theme | less变量 | Object | {} |
+| px2rem | px2rem配置项 | Object | {} |
