@@ -55,7 +55,7 @@ $ epig build # 构建项目
 
 #### .epigrc.js 配置项
 
-> 在此配置文件中也可以配置 .webpackrc.js 的同名配置项，会合并使用(优先级:.epingrc.js>.webpackrc.js), 但是配置在此的配置项不会进行检查。
+> 在此配置文件中也可以配置 .webpackrc.js 的同名配置项，会合并使用(优先级:.epigrc.js>.webpackrc.js), 但是配置在此的配置项不会进行检查。
 
 ##### plugins
 
