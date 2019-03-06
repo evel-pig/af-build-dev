@@ -1,6 +1,6 @@
 {
   "name": "@epig/af-build-dev",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "基于af-webpack的前端构建编译工具",
   "main": "index.js",
   "scripts": {
