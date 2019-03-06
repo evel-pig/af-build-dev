@@ -163,4 +163,4 @@ mock功能
 | NAME | NOTES | TYPE | DEFAULT_VALUE |
 | --- | --- | --- | --- |
 | disableMap | 禁止生成map的.ts文件 | boolean | false |
-| mapTo | 输入ts文件的路径 | string | src/.copy-map |
+| mapTo | 输出ts文件的路径 | string | src/.copy-map |
