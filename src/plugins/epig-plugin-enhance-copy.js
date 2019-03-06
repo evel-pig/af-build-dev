@@ -15,7 +15,7 @@ module.exports = function (pluginApi) {
     memo.copy = copy;
 
     opts.forEach(config => {
-      if (!disableMap) {
+      if (!config.disableMap) {
         watch(config, memo.publicPath);
       }
     });
