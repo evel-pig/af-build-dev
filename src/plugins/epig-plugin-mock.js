@@ -19,6 +19,7 @@ module.exports = function (pluginApi) {
       const { mockConfig, absNodeModules } = utils.paths;
 
       if (fs.existsSync(mockConfig)) {
+        console.log(chalk.green('启动mock:'));
         const files = [];
         const realRequire = require.extensions['.js'];
         require.extensions['.js'] = (m, filename) => {
@@ -32,7 +33,6 @@ module.exports = function (pluginApi) {
         require.extensions['.js'] = realRequire;
         return { config, files };
       }
-      console.log(chalk.red('mock启动失败：proxy.config.js不存在'));
       return {
         config: null,
         files: [mockConfig],
