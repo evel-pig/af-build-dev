@@ -151,3 +151,16 @@ mock功能
 | --- | --- | --- | --- |
 | theme | less变量 | Object | {} |
 | px2rem | px2rem配置项 | Object | {} |
+
+### epig-plugin-enhance-copy
+
+扩展copy时生成map，在原参数的基础上添加两个参数扩展;
+
+- 类型: Array
+
+参考[copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin)配置项
+
+| NAME | NOTES | TYPE | DEFAULT_VALUE |
+| --- | --- | --- | --- |
+| disableMap | 禁止生成map的.ts文件 | boolean | false |
+| mapTo | 输入ts文件的路径 | string | src/.copy-map |
