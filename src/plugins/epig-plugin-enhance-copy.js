@@ -9,6 +9,14 @@ module.exports = function (pluginApi) {
 
     const copy = opts.map(config => {
       const { mapTo, disableMap, ...rest } = config;
+
+      // 清除输出目录;
+      const tmpOutputPath = mapTo ? resolveApp(mapTo) : resolveApp('src/.copy-map');
+
+      if (fs.existsSync(tmpOutputPath)) {
+        fse.removeSync(tmpOutputPath);
+      }
+
       return rest;
     })
 
@@ -16,7 +24,7 @@ module.exports = function (pluginApi) {
 
     opts.forEach(config => {
       if (!config.disableMap) {
-        watch(config, memo.publicPath);
+        buildMap(config, memo.publicPath);
       }
     });
 
@@ -24,7 +32,7 @@ module.exports = function (pluginApi) {
   });
 }
 
-function watch(config, publicPath) {
+function buildMap(config, publicPath) {
 
   const isAbsolutePath = isAbsolute(config.from);
   let sourcePath;
@@ -35,7 +43,6 @@ function watch(config, publicPath) {
   }
 
   function generaterFileMap() {
-
     // 获取文件列表
     function getFileList(filePath) {
       const map = {};
@@ -87,18 +94,24 @@ function watch(config, publicPath) {
     fs.writeFileSync(filePath, tpl, { encoding: 'utf-8' });
   }
 
-  // 监听copy的文件夹;
-  const watcher = chokidar.watch(sourcePath);
-  watcher.on('change', () => {
+  const dev = process.env.NODE_ENV === 'development';
+
+  if (dev) {
+    // 监听copy的文件夹;
+    const watcher = chokidar.watch(sourcePath);
+    watcher.on('change', () => {
+      generaterFileMap();
+    });
+    watcher.on('add', () => {
+      generaterFileMap();
+    });
+    watcher.on('unlink', () => {
+      generaterFileMap();
+    });
+    process.on('SIGINT', () => {
+      watcher.close();
+    });
+  } else {
     generaterFileMap();
-  });
-  watcher.on('add', () => {
-    generaterFileMap();
-  });
-  watcher.on('unlink', () => {
-    generaterFileMap();
-  });
-  process.on('SIGINT', () => {
-    watcher.close();
-  });
+  }
 }
