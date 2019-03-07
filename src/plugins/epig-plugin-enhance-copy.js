@@ -63,7 +63,9 @@ function buildMap(config, publicPath) {
           const targetPath = filedir.replace(sourcePath, publicPath + config.to);
           // 使用文件名字作为key;
           const key = filename.split('.')[0];
-          map[key] = targetPath;
+          if (key) {
+            map[key] = targetPath;
+          }
         }
       });
       return map;
