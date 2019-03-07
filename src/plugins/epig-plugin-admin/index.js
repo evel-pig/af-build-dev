@@ -6,11 +6,14 @@ const adminEntry = require('./admin-entry');
 const adminRoute = require('./admin-route');
 
 module.exports = function (pluginApi) {
-  const entryConfigPath = utils.resolveApp('src/entry.config.ts');
+  let entryConfigPath = utils.resolveApp('src/entry.config.ts');
   pluginApi.register('register', ({ opts = {} }) => {
 
     if (!fs.existsSync(entryConfigPath)) {
-      throw new Error(`entry config(${entryConfigPath})不存在`);
+      entryConfigPath = utils.resolveApp('src/entry.config.tsx');
+      if (!fs.existsSync(entryConfigPath)) {
+        throw new Error(`entry config(${entryConfigPath}/.tsx)不存在`);
+      }
     }
 
     generateTmpFolder();
