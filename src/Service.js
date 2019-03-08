@@ -1,6 +1,6 @@
 const chalk = require('chalk');
 const assert = require('assert');
-const PluginAPI = require('./PluginAPI');
+const PluginAPI = require('./PluginApi');
 const getUserConfig = require('./getUserConfig');
 const getPlugins = require('./getPlugins');
 const getWebpackConfig = require('./getWebpackConfig');
