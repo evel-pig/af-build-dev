@@ -36,20 +36,41 @@ $ epig build # 构建项目
 内置配置项
 
 ```JavaScript
+  const babelEnvTargets = {
+    chrome: 49,
+    firefox: 64,
+    safari: 10,
+    edge: 13,
+    ios: 10,
+    ...(targets || {}),
+  };
+
   const webpackrc = {
-    ...memo, // .webpackrc.js 配置项
-    ...rest, // .epigrc.js配置项
-    publicPath: '/',
-    ignoreMomentLocale: true,
-    disableDynamicImport: false,
-    urlLoaderExcludes: [/\.(html|ejs)$/], // 避免url-loader打包html/ejs文件;
-    hash: isDev ? false : true,
-    extraBabelPlugins: [
-      [require.resolve('@babel/plugin-syntax-dynamic-import')],
-      [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }],
-      [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: true }, 'antd-mobile'],
-      ...(memo.extraBabelPlugins || []),
-    ],
+         ...memo, // .webpackrc.js 配置项
+      ...rest, // .epigrc.js配置项
+      publicPath: '/',
+      ignoreMomentLocale: true,
+      disableDynamicImport: false,
+      urlLoaderExcludes: [/\.(html|ejs)$/], // 避免url-loader打包html/ejs文件;
+      hash: isDev ? false : true,
+      extraBabelPresets: [
+        [
+          require.resolve('babel-preset-umi'),
+          {
+            targets: babelTargets,
+            env: {
+              useBuiltIns: 'entry',
+              ...(treeShaking ? { modules: false } : {}),
+            },
+          },
+        ],
+         ...(memo.extraBabelPresets || []),
+      ],
+      extraBabelPlugins: [
+        [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }],
+        [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: true }, 'antd-mobile'],
+        ...(memo.extraBabelPlugins || []),
+      ],
   }
 ```
 
@@ -91,6 +112,16 @@ chainWebpack(config, { webpack }) {
   config.resolve.alias.set('a', 'path/to/a');
 }
  
+```
+
+#### targets
+
+babel语法兼容配置
+```JavaScript
+// 支持ie11
+targets: {
+  ie: 11,
+}
 ```
 
 ## plugins

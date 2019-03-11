@@ -12,8 +12,9 @@ module.exports = function (pluginApi, opts) {
     memo.entry = {
       app: isDev ? [
         path.resolve(utils.paths.adminTmpPath, 'entry.tsx'),
+        '@babel/polyfill',
         webpackHotDevClientPath,
-      ] : [path.resolve(utils.paths.adminTmpPath, 'entry.tsx')],
+      ] : [path.resolve(utils.paths.adminTmpPath, 'entry.tsx'), '@babel/polyfill'],
     };
     return memo;
   });
