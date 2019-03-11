@@ -77,7 +77,7 @@ $ epig build # 构建项目
 
 ```JavaScript
   plugins: [
-    ['epig-plugin-admin', {router: true}],
+    ['epig-plugin-admin', {noAutoRoute: true}],
   ],
 ```
 

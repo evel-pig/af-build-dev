@@ -6,19 +6,18 @@ const adminEntry = require('./admin-entry');
 const adminRoute = require('./admin-route');
 
 module.exports = function (pluginApi) {
-  let entryConfigPath = utils.resolveApp('src/entry.config.ts');
   pluginApi.register('register', ({ opts = {} }) => {
-
-    if (!fs.existsSync(entryConfigPath)) {
-      entryConfigPath = utils.resolveApp('src/entry.config.tsx');
-      if (!fs.existsSync(entryConfigPath)) {
-        throw new Error(`entry config(${entryConfigPath}/.tsx)不存在`);
-      }
-    }
 
     generateTmpFolder();
 
     if (!opts.noAutoEntry) {
+      let entryConfigPath = utils.resolveApp('src/entry.config.ts');
+      if (!fs.existsSync(entryConfigPath)) {
+        entryConfigPath = utils.resolveApp('src/entry.config.tsx');
+        if (!fs.existsSync(entryConfigPath)) {
+          throw new Error(`entry config(${entryConfigPath}/.tsx)不存在`);
+        }
+      }
       adminEntry(pluginApi, opts);
     }
 
