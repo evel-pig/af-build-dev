@@ -21,13 +21,17 @@ module.exports = function (pluginApi) {
     };
 
     const webpackrc = {
-      ...memo, // .webpackrc.js 配置项
-      ...rest, // .epigrc.js配置项
       publicPath: '/',
       ignoreMomentLocale: true,
       disableDynamicImport: false,
-      urlLoaderExcludes: [/\.(html|ejs)$/], // 避免url-loader打包html/ejs文件;
       hash: isDev ? false : true,
+      ...memo, // .webpackrc.js 配置项
+      ...rest, // .epigrc.js配置项
+      urlLoaderExcludes: [
+        /\.(html|ejs|txt)$/,
+        ...(memo.urlLoaderExcludes || []),
+        ...(rest.urlLoaderExcludes || []),
+      ], // 避免url-loader打包html/ejs/txt文件;
       extraBabelPresets: [
         [
           require.resolve('babel-preset-umi'),
@@ -40,11 +44,13 @@ module.exports = function (pluginApi) {
           },
         ],
         ...(memo.extraBabelPresets || []),
+        ...(rest.extraBabelPresets || []),
       ],
       extraBabelPlugins: [
         [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }],
         [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: true }, 'antd-mobile'],
         ...(memo.extraBabelPlugins || []),
+        ...(rest.extraBabelPlugins || []),
       ],
     }
 
@@ -70,5 +76,13 @@ module.exports = function (pluginApi) {
     }
 
     return webpackrc;
+  });
+
+  pluginApi.register('chainWebpackConfig', ({ args: { webpackConfig }, opts = [] }) => {
+    webpackConfig.module
+      .rule('txt')
+      .test(/\.txt?$/)
+      .use('raw-loader')
+      .loader(require.resolve('raw-loader'));
   });
 }

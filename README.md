@@ -36,7 +36,7 @@ $ epig build # 构建项目
 内置配置项
 
 ```JavaScript
-  const babelEnvTargets = {
+  const babelTargets = {
     chrome: 49,
     firefox: 64,
     safari: 10,
@@ -46,31 +46,37 @@ $ epig build # 构建项目
   };
 
   const webpackrc = {
-         ...memo, // .webpackrc.js 配置项
-      ...rest, // .epigrc.js配置项
-      publicPath: '/',
-      ignoreMomentLocale: true,
-      disableDynamicImport: false,
-      urlLoaderExcludes: [/\.(html|ejs)$/], // 避免url-loader打包html/ejs文件;
-      hash: isDev ? false : true,
-      extraBabelPresets: [
-        [
-          require.resolve('babel-preset-umi'),
-          {
-            targets: babelTargets,
-            env: {
-              useBuiltIns: 'entry',
-              ...(treeShaking ? { modules: false } : {}),
-            },
+    publicPath: '/',
+    ignoreMomentLocale: true,
+    disableDynamicImport: false,
+    hash: isDev ? false : true,
+    ...memo, // .webpackrc.js 配置项
+    ...rest, // .epigrc.js配置项
+    urlLoaderExcludes: [
+      /\.(html|ejs|txt)$/,
+      ...(memo.urlLoaderExcludes || []),
+      ...(rest.urlLoaderExcludes || []),
+    ], // 避免url-loader打包html/ejs/txt文件;
+    extraBabelPresets: [
+      [
+        require.resolve('babel-preset-umi'),
+        {
+          targets: babelTargets,
+          env: {
+            useBuiltIns: 'entry',
+            ...(treeShaking ? { modules: false } : {}),
           },
-        ],
-         ...(memo.extraBabelPresets || []),
+        },
       ],
-      extraBabelPlugins: [
-        [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }],
-        [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: true }, 'antd-mobile'],
-        ...(memo.extraBabelPlugins || []),
-      ],
+      ...(memo.extraBabelPresets || []),
+      ...(rest.extraBabelPresets || []),
+    ],
+    extraBabelPlugins: [
+      [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }],
+      [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: true }, 'antd-mobile'],
+      ...(memo.extraBabelPlugins || []),
+      ...(rest.extraBabelPlugins || []),
+    ],
   }
 ```
 
