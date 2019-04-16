@@ -6,15 +6,15 @@ const getPlugins = require('./getPlugins');
 const getWebpackConfig = require('./getWebpackConfig');
 
 module.exports = class Service {
-  constructor() {
+  constructor(opts = {}) {
     this.cwd = process.cwd();
 
     this.pluginMethods = {};
 
     this.registerMethod();
 
-    // 获取用户 '.userrc.js' 配置
-    this.config = getUserConfig();
+    // 获取用户 '.epigrc.js' 配置
+    this.config = getUserConfig(opts);
 
     // 获取内置以及用户自定义的plugins
     this.plugins = this.resolvePlugins();
