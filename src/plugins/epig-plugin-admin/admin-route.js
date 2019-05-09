@@ -93,7 +93,6 @@ function getRouterInfo(containersPath, dev, noModel) {
     const chunkName = lowerFirstCase(chunkFolder);
     const isIndex = fs.existsSync(path.resolve(folderPath, 'index.tsx'));
     let currentGlobalModels = [...globalModels];
-    currentGlobalModels = currentGlobalModels.concat(getModels(chunkName, folderPath));
     containers.forEach(container => {
       // 排除临时文件
       if (container === '.DS_Store') {
@@ -130,6 +129,7 @@ function getRouterInfo(containersPath, dev, noModel) {
       }
 
       if (!isIndex) {
+        currentGlobalModels = currentGlobalModels.concat(getModels(chunkName, folderPath));
         const containerInfo = loadContainer(container, chunkName, currentGlobalModels, folderPath
           , container, containerPath);
         components = {
