@@ -10,7 +10,9 @@ const isPlainObject = require('is-plain-object');
 module.exports = function (pluginApi) {
   pluginApi.register('register', ({ opts = {} }) => {
 
-    generateTmpFolder();
+    if (!(opts.noAutoEntry && opts.noAutoRoute)) {
+      generateTmpFolder();
+    }
 
     if (!opts.noAutoEntry) {
       let entryConfigPath = utils.resolveApp('src/entry.config.ts');
