@@ -160,7 +160,9 @@ mock功能
 | noAutoEntry | 禁止自动生成入口 | boolean | undefined |
 | noAutoRoute | 禁止自动生成路由 | boolean | undefined |
 | noAutoModel | 禁止自动生成model | boolean | undefined |
+| noSplitChunks | 禁止拆分代码 | boolean | undefined |
 | async | - | boolean | undefined | 
+| cacheGroups | 拆分代码规则,noSplitChunks为true时该配置不起作用 | object | [link](https://github.com/evel-pig/af-build-dev/blob/master/src/plugins/epig-plugin-admin/index.js#L32) |
 
 ### epig-plugin-html
 
@@ -201,3 +203,9 @@ mock功能
 | --- | --- | --- | --- |
 | disableMap | 禁止生成map的.ts文件 | boolean | false |
 | mapTo | 输出ts文件的路径 | string | src/.copy-map |
+
+### epig-plugin-split-chunks
+
+拆分代码
+
+参考[split-chunks-plugin](https://webpack.js.org/plugins/split-chunks-plugin/)

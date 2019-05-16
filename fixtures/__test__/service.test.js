@@ -44,6 +44,53 @@ describe('webpack', () => {
       path.resolve(process.cwd(), './dist')
     )
   })
+
+  test('admin webpack optimization split chunks', () => {
+    expect(webpackRc.optimization.splitChunks.cacheGroups).toEqual(
+      expect.objectContaining({
+        // 抽离admin-tools
+        vendor: {
+          test: /[\\/]node_modules[\\/](?!@epig\/admin-tools)/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+        // 抽离antd && rc-*
+        antd: {
+          test: /(@ant-design|antd|rc-)/,
+          name: 'antd',
+          chunks: 'all',
+          enforce: true,
+          priority: 2,
+        },
+        wangEditor: {
+          test: /wangEditor/,
+          name: 'wangEditor',
+          chunks: 'async',
+          priority: 3,
+          enforce: true,
+        },
+        commons: {
+          name: 'commons',
+          chunks: 'async',
+          minChunks: 2,
+          enforce: true,
+          priority: 1,
+        },
+      })
+    )
+  })
+
+  test('test webpack optimization split chunks', () => {
+    expect(webpackRc.optimization.splitChunks.cacheGroups).toEqual(
+      expect.objectContaining({
+        test: {
+          test: /(@ant-design|antd|rc-)/,
+          name: 'antd',
+          chunks: 'all',
+        },
+      })
+    )
+  })
 })
 
 describe('service', () => {
@@ -53,5 +100,7 @@ describe('service', () => {
     expect(existPlugin('epig-plugin-html')).toEqual(true);
     expect(existPlugin('epig-plugin-hd')).toEqual(true);
     expect(existPlugin('pluginTest')).toEqual(true);
+    expect(existPlugin('epig-plugin-admin')).toEqual(true);
+    expect(existPlugin('epig-plugin-split-chunks')).toEqual(true);
   })
 })

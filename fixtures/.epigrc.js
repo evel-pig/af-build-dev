@@ -9,6 +9,16 @@ module.exports = {
   },
   plugins: [
     [pluginTest],
+    ['epig-plugin-admin', { noAutoEntry: true, noAutoRoute: true, noAutoModel: true }],
+    ['epig-plugin-split-chunks', {
+      cacheGroups: {
+        test: {
+          test: /(@ant-design|antd|rc-)/,
+          name: 'antd',
+          chunks: 'all',
+        },
+      }
+    }],
     ['epig-plugin-hd'],
   ]
 }

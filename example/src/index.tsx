@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
+import { Button } from 'antd';
 
 class App extends Component {
   render() {
     return (
       <div>
-        ReactDom
+        <Button>button</Button>
       </div>
     )
   }
