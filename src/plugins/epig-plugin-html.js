@@ -11,7 +11,9 @@ module.exports = function (pluginApi) {
       htmlConfigs = opts;
     } else {
       let template;
-      if (fs.existsSync(resolve(utils.paths.templatePath, 'index.html'))) {
+      if (fs.existsSync(resolve(utils.paths.publicPath, 'index.html'))) {
+        template = resolve(utils.paths.publicPath, 'index.html');
+      } else if (fs.existsSync(resolve(utils.paths.templatePath, 'index.html'))) {
         template = resolve(utils.paths.templatePath, 'index.html');
       }
       htmlConfigs = [{
