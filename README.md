@@ -16,9 +16,9 @@ $ epig dev # 启动开发服务器
 $ epig build # 构建项目
 ```
 
-### 配置项
+## 配置项
 
-#### 环境变量
+### 环境变量
 
 只列部分，详细参考af-webpack源码;
 
@@ -28,7 +28,7 @@ $ epig build # 构建项目
 | ANALYZE | `webpack-bundle-analyzer`插件开关 | undefined |
 | SPEED_MEASURE | `speed-measure-webpack-plugin`插件开关 | undefined |
 
-#### .webpackrc.js 配置项
+### .webpackrc.js 配置项
 参考[af-webpack](https://umijs.org/zh/config/#webpack)中的webpack配置项
 
 由于af-build-dev内建chainConfig支持,请不要配置chainConfig，其他配置项和合并到内置配置项。
@@ -80,11 +80,11 @@ $ epig build # 构建项目
   }
 ```
 
-#### .epigrc.js 配置项
+### .epigrc.js 配置项
 
 > 在此配置文件中也可以配置 .webpackrc.js 的同名配置项，会合并使用(优先级:.epigrc.js>.webpackrc.js), 但是配置在此的配置项不会进行检查。
 
-##### plugins
+#### [plugins](./Plugins.md)
 
 - 类型：Array
 
@@ -129,83 +129,3 @@ targets: {
   ie: 11,
 }
 ```
-
-## plugins
-
-内置插件
-
-```
-const builtInPlugins = [
-  'afwebpack-config',
-  'epig-plugin-mock',
-];
-```
-
-### afwebpack-config
-
-内置自定义webpack配置项
-
-### epig-plugin-mock
-
-mock功能
-
-### epig-plugin-admin
-
-管理后台
-
-- 类型: Object
-
-| NAME | NOTES | TYPE | DEFAULT_VALUE |
-| --- | --- | --- | --- |
-| noAutoEntry | 禁止自动生成入口 | boolean | undefined |
-| noAutoRoute | 禁止自动生成路由 | boolean | undefined |
-| noAutoModel | 禁止自动生成model | boolean | undefined |
-| noSplitChunks | 禁止拆分代码 | boolean | undefined |
-| async | - | boolean | undefined | 
-| cacheGroups | 拆分代码规则,noSplitChunks为true时该配置不起作用 | object | [link](https://github.com/evel-pig/af-build-dev/blob/master/src/plugins/epig-plugin-admin/index.js#L32) |
-
-### epig-plugin-html
-
-配置HTML模板
-
-- 类型: Array | Object
-
-参考[html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#options)配置项
-
-### epig-plugin-copy-server
-
-拷贝项目根目录的`server`文件夹
-
-- 类型: Object
-
-| NAME | NOTES | TYPE | DEFAULT_VALUE |
-| --- | --- | --- | --- |
-| output | 输出目录 | string | 同webpack.output.path |
-
-### epig-plugin-hd
-
-配置移动端的高清方案
-
-| NAME | NOTES | TYPE | DEFAULT_VALUE |
-| --- | --- | --- | --- |
-| theme | less变量 | Object | {} |
-| px2rem | px2rem配置项 | Object | {} |
-
-### epig-plugin-enhance-copy
-
-扩展copy时生成map，在原参数的基础上添加两个参数扩展;
-
-- 类型: Array
-
-参考[copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin)配置项
-
-| NAME | NOTES | TYPE | DEFAULT_VALUE |
-| --- | --- | --- | --- |
-| disableMap | 禁止生成map的.ts文件 | boolean | false |
-| mapTo | 输出ts文件的路径 | string | src/.copy-map |
-
-### epig-plugin-split-chunks
-
-拆分代码
-
-参考[split-chunks-plugin](https://webpack.js.org/plugins/split-chunks-plugin/)

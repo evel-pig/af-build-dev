@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
   plugins: [
     ['epig-plugin-split-chunks', {
@@ -9,5 +10,10 @@ module.exports = {
         },
       }
     }],
+    ['epig-plugin-sprite', {
+      src: {
+        cwd: path.resolve(__dirname, './src/assets/icons'),
+      },
+    }]
   ]
 }

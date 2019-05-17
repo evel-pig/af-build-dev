@@ -79,6 +79,8 @@ module.exports = function (pluginApi) {
   });
 
   pluginApi.register('chainWebpackConfig', ({ args: { webpackConfig }, opts = [] }) => {
+    webpackConfig.resolve.modules.add('styles');
+
     webpackConfig.module
       .rule('txt')
       .test(/\.txt?$/)
