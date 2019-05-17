@@ -33,6 +33,7 @@ function getConfig(config) {
   }
   let _opt = {
     inject: true,
+    minify: false,
     template: template,
   }
   return merge(_opt, config);

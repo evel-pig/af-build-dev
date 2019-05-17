@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
-import { Button } from 'antd';
+import { Button } from 'antd-mobile';
 import styles from './index.less';
 
 class App extends Component {

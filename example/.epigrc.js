@@ -1,6 +1,7 @@
 const path = require('path');
 module.exports = {
   plugins: [
+    ['epig-plugin-hd', { inject: true }],
     ['epig-plugin-split-chunks', {
       cacheGroups: {
         test: {

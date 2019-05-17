@@ -77,6 +77,8 @@ mock功能
 | --- | --- | --- | --- |
 | theme | less变量 | Object | {} |
 | px2rem | px2rem配置项 | Object | {} |
+| inject | 自动注入高清脚本和fastclick | boolean | false |
+| psdWidth | 设计稿的宽度, inject为true时该配置项才生效 | 750 |
 
 ### epig-plugin-enhance-copy
 
