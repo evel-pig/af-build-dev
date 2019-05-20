@@ -11,13 +11,15 @@ class HtmlHD {
     const psdWidth = this.opts.psdWidth || 750;
 
     const script = `
-  <script type="text/javascript" src="https://unpkg.com/fastclick@1.0.6/lib/fastclick.js"></script>
+  <script type="text/javascript" src="https://as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js"></script>
   <script type="text/javascript" src="https://as.alipayobjects.com/g/animajs/anima-hd/5.0.0/vw.js"></script>
   <script>
     window.vw && window.vw(${rootValue}, ${psdWidth});
-    window.addEventListener('DOMContentLoaded', function () {
-      window.FastClick && FastClick.attach(document.body);
-    }, false);
+    if ('addEventListener' in document) {
+      document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+      }, false);
+    }
   </script>\n`;
 
     return script;
