@@ -32,7 +32,7 @@ module.exports = function (pluginApi) {
     if (!opts.noSplitChunks) {
       splitChunks(pluginApi, {
         cacheGroups: {
-          // 抽离admin-tools
+          // 抽离node_modules中非admin-tools的模块
           vendor: {
             test: /[\\/]node_modules[\\/](?!@epig\/admin-tools)/,
             name: 'vendor',
