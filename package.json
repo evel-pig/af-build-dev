@@ -4,10 +4,20 @@
   "description": "基于af-webpack的前端构建编译工具",
   "main": "index.js",
   "scripts": {
+    "dev": "tsc --watch",
+    "build": "rm -rf lib && tsc",
     "test": "jest",
     "push": "git push && git push --tags",
-    "patch": "npm version patch",
+    "patch": "npm run build && npm version patch",
     "pub": "npm run patch && npm publish && npm run push"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "tslint -c tslint.json"
   },
   "keywords": [
     "epig",
@@ -18,22 +28,31 @@
   "license": "ISC",
   "files": [
     "bin",
-    "src"
+    "lib"
   ],
   "bin": {
     "epig": "./bin/index.js"
   },
   "dependencies": {
-    "@babel/polyfill": "7.2.5",
-    "af-webpack": "1.5.3",
-    "babel-plugin-import": "1.11.0",
-    "babel-preset-umi": "1.4.0",
+    "@babel/polyfill": "7.4.4",
+    "af-webpack": "1.9.0",
+    "babel-plugin-import": "1.12.0",
+    "babel-preset-umi": "1.6.0",
     "html-webpack-plugin": "4.0.0-beta.5",
     "postcss-plugin-px2rem": "0.8.1",
-    "raw-loader": "2.0.0",
+    "raw-loader": "3.0.0",
     "webpack-spritesmith": "1.0.1"
   },
   "devDependencies": {
-    "jest": "^24.7.1"
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.8",
+    "husky": "^2.4.1",
+    "jest": "^24.8.0",
+    "lint-staged": "^8.2.1",
+    "ts-jest": "^24.0.2",
+    "tslint": "^5.17.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.5.2"
   }
 }
