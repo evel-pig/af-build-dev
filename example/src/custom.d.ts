@@ -1,10 +1,5 @@
-declare module '*.less' {
-  const content: any;
-  export default content;
-}
-declare module '*.png';
 declare const env;
-declare module '*.mp3' {
-  const content: any;
-  export default content;
-}
+declare module '*.less';
+declare module '*.png';
+declare module '*.txt';
+declare module '*.mp3';

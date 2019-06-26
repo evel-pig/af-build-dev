@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const program = require('commander');
-const dev = require('../src/dev');
-const build = require('../src/build');
+const dev = require('../lib/commands/dev').default;
+const build = require('../lib/commands/build').default;
 
 program
   .command('dev')

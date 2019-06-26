@@ -28,29 +28,33 @@
   "license": "ISC",
   "files": [
     "bin",
-    "lib"
+    "lib",
+    "public"
   ],
   "bin": {
     "epig": "./bin/index.js"
   },
   "dependencies": {
-    "@babel/polyfill": "7.4.4",
-    "af-webpack": "1.9.0",
+    "af-webpack": "1.9.1",
     "babel-plugin-import": "1.12.0",
-    "babel-preset-umi": "1.6.0",
+    "core-js": "3.1.4",
     "html-webpack-plugin": "4.0.0-beta.5",
     "postcss-plugin-px2rem": "0.8.1",
     "raw-loader": "3.0.0",
+    "regenerator-runtime": "0.13.2",
     "webpack-spritesmith": "1.0.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.15",
-    "@types/node": "^12.0.8",
-    "husky": "^2.4.1",
+    "@types/node": "^8.10.49",
+    "@types/webpack": "^4.4.34",
+    "@types/webpack-chain": "^5.2.0",
+    "@types/webpack-dev-server": "^3.1.6",
+    "husky": "^2.5.0",
     "jest": "^24.8.0",
     "lint-staged": "^8.2.1",
     "ts-jest": "^24.0.2",
-    "tslint": "^5.17.0",
+    "tslint": "^5.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-react": "^4.0.0",
     "typescript": "^3.5.2"

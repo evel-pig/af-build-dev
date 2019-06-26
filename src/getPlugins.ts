@@ -16,14 +16,33 @@ export interface Plugin {
 
 // 内置插件
 const builtInPlugins = [
-  'test',
   'afwebpack-config',
   // 'epig-plugin-mock',
 ];
 
-const pluginNames = readdirSync(paths.pluginsPath).map(name => {
-  return name.replace(/\.(ts|js)/, '');
-});
+const pluginNames = readdirSync(paths.pluginsPath)
+  .filter(name => name.indexOf('.d.ts') < 0)
+  .map(name => {
+    return name.replace(/\.(ts|js)/, '');
+  });
+
+export function getPluginFromPath(pluginName, opts = {}) {
+  let plugin;
+  if (pluginNames.includes(pluginName)) {
+    const pluginPath = resolve(paths.pluginsPath, pluginName);
+    const apply = require(pluginPath);
+    plugin = {
+      id: pluginName,
+      apply: apply.default || apply,
+      opts: opts,
+    };
+  } else {
+    console.log(`Plugin ${chalk.red(pluginName)} can't be resolved.`);
+    console.log(`Exist plugins:\n${pluginNames.join('\n')}\n`);
+    process.exit(1);
+  }
+  return plugin;
+}
 
 export default function (opts: GetPluginsOpts = {}) {
   const plugins: Plugin[] = [];
@@ -44,23 +63,14 @@ export default function (opts: GetPluginsOpts = {}) {
     const [plugin, opts = {}] = p;
 
     if (typeof plugin === 'string') {
-      if (pluginNames.includes(plugin)) {
-        const pluginPath = resolve(paths.pluginsPath, p[0]);
-        const apply = require(pluginPath);
-        plugins.push({
-          id: plugin,
-          apply: apply.default || apply,
-          opts: opts,
-        });
-      } else {
-        console.log(`Plugin ${chalk.red(plugin)} can't be resolved.`);
-        console.log(`Exist plugins:\n${pluginNames.join('\n')}\n`);
-        process.exit(1);
+      const _plugin = getPluginFromPath(plugin, opts);
+      if (_plugin) {
+        plugins.push(_plugin);
       }
     } else if (typeof plugin === 'function') {
       plugins.push({
-        id: plugin.name || `epigrc:${Math.floor(Math.random() * 100000000)}`,
-        apply: plugin,
+        id: `function:${plugin.name || Math.floor(Math.random() * 100000000)}`,
+        apply: plugin.default || plugin,
         opts: opts,
       });
     }
