@@ -50,27 +50,6 @@ describe('webpack', () => {
   test('admin webpack optimization split chunks', () => {
     expect(webpackRc.optimization.splitChunks['cacheGroups']).toEqual(
       expect.objectContaining({
-        // 抽离admin-tools
-        vendor: {
-          test: /[\\/]node_modules[\\/](?!@epig\/admin-tools)/,
-          name: 'vendor',
-          chunks: 'all',
-        },
-        // 抽离antd && rc-*
-        antd: {
-          test: /(@ant-design|antd|rc-)/,
-          name: 'antd',
-          chunks: 'all',
-          enforce: true,
-          priority: 2,
-        },
-        wangEditor: {
-          test: /wangEditor/,
-          name: 'wangEditor',
-          chunks: 'async',
-          priority: 3,
-          enforce: true,
-        },
         commons: {
           name: 'commons',
           chunks: 'async',

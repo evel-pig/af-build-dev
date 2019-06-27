@@ -33,53 +33,6 @@ $ epig build # 构建项目
 
 由于af-build-dev内建chainConfig支持,请不要配置chainConfig，其他配置项和合并到内置配置项。
 
-内置配置项
-
-```JavaScript
-  const babelTargets = {
-    chrome: 49,
-    firefox: 64,
-    safari: 10,
-    edge: 13,
-    ios: 10,
-    ...(targets || {}),
-  };
-
-  const webpackrc = {
-    publicPath: '/',
-    ignoreMomentLocale: true,
-    disableDynamicImport: false,
-    hash: isDev ? false : true,
-    ...memo, // .webpackrc.js 配置项
-    ...rest, // .epigrc.js配置项
-    urlLoaderExcludes: [
-      /\.(html|ejs|txt)$/,
-      ...(memo.urlLoaderExcludes || []),
-      ...(rest.urlLoaderExcludes || []),
-    ], // 避免url-loader打包html/ejs/txt文件;
-    extraBabelPresets: [
-      [
-        require.resolve('babel-preset-umi'),
-        {
-          targets: babelTargets,
-          env: {
-            useBuiltIns: 'entry',
-            ...(treeShaking ? { modules: false } : {}),
-          },
-        },
-      ],
-      ...(memo.extraBabelPresets || []),
-      ...(rest.extraBabelPresets || []),
-    ],
-    extraBabelPlugins: [
-      [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }],
-      [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: true }, 'antd-mobile'],
-      ...(memo.extraBabelPlugins || []),
-      ...(rest.extraBabelPlugins || []),
-    ],
-  }
-```
-
 ### .epigrc.js 配置项
 
 > 在此配置文件中也可以配置 .webpackrc.js 的同名配置项，会合并使用(优先级:.epigrc.js>.webpackrc.js), 但是配置在此的配置项不会进行检查。
@@ -90,11 +43,11 @@ $ epig build # 构建项目
 
 数组项支持为插件名字或者自定义方法。
 
-如果插件有参数，则通过数组的形式进行配置，第一项是插件名字，第二项是参数，类似 babel 插件的配置方式。
+如果插件有参数，则通过数组的形式进行配置，第一项是插件名字或Function，第二项是参数，类似 babel 插件的配置方式。
 
 无参数
 
-```JavaScript
+```js
   plugins: [
     ['epig-plugin-admin'],
   ],
@@ -102,7 +55,7 @@ $ epig build # 构建项目
 
 有参数
 
-```JavaScript
+```js
   plugins: [
     ['epig-plugin-admin', {noAutoRoute: true}],
   ],
@@ -112,7 +65,7 @@ $ epig build # 构建项目
 
 可支持链式配置webpack配置，参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)
 
-```JavaScript
+```js
 chainWebpack(config, { webpack }) {
   // 设置 alias
   config.resolve.alias.set('a', 'path/to/a');
@@ -123,7 +76,8 @@ chainWebpack(config, { webpack }) {
 #### targets
 
 babel语法兼容配置
-```JavaScript
+
+```js
 // 支持ie11
 targets: {
   ie: 11,

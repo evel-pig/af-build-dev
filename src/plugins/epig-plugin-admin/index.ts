@@ -33,11 +33,18 @@ export default function (api: IApi, opts: any = {}) {
   if (!opts.noSplitChunks) {
     api.registerPlugin(getPluginByName('epig-plugin-split-chunks', {
       cacheGroups: {
-        // 抽离node_modules中非admin-tools的模块
+        // 抽离node_modules中非@epig的模块
         vendor: {
-          test: /[\\/]node_modules[\\/](?!@epig\/admin-tools)/,
+          test: /[\\/]node_modules[\\/](?!@epig)/,
           name: 'vendor',
           chunks: 'all',
+        },
+        wangEditor: {
+          test: /wangEditor/,
+          name: 'wangEditor',
+          chunks: 'async',
+          priority: 3,
+          enforce: true,
         },
         // 抽离antd && rc-*
         antd: {
@@ -46,13 +53,6 @@ export default function (api: IApi, opts: any = {}) {
           chunks: 'all',
           enforce: true,
           priority: 2,
-        },
-        wangEditor: {
-          test: /wangEditor/,
-          name: 'wangEditor',
-          chunks: 'async',
-          priority: 3,
-          enforce: true,
         },
         commons: {
           name: 'commons',

@@ -1,6 +1,5 @@
-function pluginTest(pluginApi) {
-  pluginApi.register('register', () => {
-  });
+function pluginTest(api, opts) {
+  console.log('plugin test:', opts);
 }
 
 module.exports = {
@@ -8,7 +7,7 @@ module.exports = {
     react: 'preact',
   },
   plugins: [
-    [pluginTest],
+    [pluginTest, { test: '123' }],
     ['epig-plugin-admin', { noAutoEntry: true, noAutoRoute: true, noAutoModel: true }],
     ['epig-plugin-split-chunks', {
       cacheGroups: {
