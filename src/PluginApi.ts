@@ -94,7 +94,6 @@ export default class PluginApi {
   private _addMethods() {
     // 事件触发顺序
     [
-      'onInit',
       'modifyAFWebpackOpts',
       'chainWebpackConfig',
       'modifyEntry',

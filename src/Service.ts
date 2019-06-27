@@ -51,8 +51,6 @@ export default class Service {
     this.plugins = this.resolvePlugins();
     this.initPlugins();
 
-    this.applyPlugins('onInit');
-
     // get webpack config
     this.webpackConfig = getWebpackConfig(this);
   }

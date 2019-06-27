@@ -68,7 +68,6 @@ export type MoidfyMethod<T, U = {}> = (fn: (memo: T, args: U) => T) => void;
 export type IPluginApi = PluginApi;
 
 export interface IApi extends IPluginApi {
-  onInit: EventMethod;
   modifyAFWebpackOpts: MoidfyMethod<IAFWebpackConfig>;
   chainWebpackConfig: EventMethod<{ chainWebpack: IWebpackChainConfig }>;
   modifyEntry: MoidfyMethod<Entry>;

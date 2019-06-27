@@ -17,7 +17,8 @@ export interface Plugin {
 // 内置插件
 const builtInPlugins = [
   'afwebpack-config',
-  // 'epig-plugin-mock',
+  'epig-plugin-mock',
+  'epig-plugin-copy-server',
 ];
 
 const pluginNames = readdirSync(paths.pluginsPath)
@@ -26,7 +27,7 @@ const pluginNames = readdirSync(paths.pluginsPath)
     return name.replace(/\.(ts|js)/, '');
   });
 
-export function getPluginFromPath(pluginName, opts = {}) {
+export function getPluginByName(pluginName, opts = {}) {
   let plugin;
   if (pluginNames.includes(pluginName)) {
     const pluginPath = resolve(paths.pluginsPath, pluginName);
@@ -63,7 +64,7 @@ export default function (opts: GetPluginsOpts = {}) {
     const [plugin, opts = {}] = p;
 
     if (typeof plugin === 'string') {
-      const _plugin = getPluginFromPath(plugin, opts);
+      const _plugin = getPluginByName(plugin, opts);
       if (_plugin) {
         plugins.push(_plugin);
       }

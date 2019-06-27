@@ -1,11 +1,13 @@
-const path = require('path');
-const Service = require('../../src/Service');
+import { resolve } from 'path';
+import Service from '../../src/Service';
 
-const basePath = path.resolve(process.cwd(), './fixtures');
+const basePath = resolve(process.cwd(), './fixtures');
 
 const service = new Service({
-  rcPath: path.resolve(basePath, '.epigrc.js'),
+  rcPath: resolve(basePath, '.epigrc.js'),
 });
+
+service.init();
 
 const epigRc = service.config;
 const webpackRc = service.webpackConfig;
@@ -20,33 +22,33 @@ describe('epigrc', () => {
   test('plugins config', () => {
     expect(epigRc.plugins).toEqual(
       expect.arrayContaining([
-        ['epig-plugin-hd']
-      ])
+        ['epig-plugin-hd'],
+      ]),
     );
-  })
+  });
 });
 
 describe('webpack', () => {
   test('mode', () => {
-    expect(webpackRc.mode).toEqual('production')
-  })
+    expect(webpackRc.mode).toEqual('production');
+  });
 
   test('webpack alias preact', () => {
     expect(webpackRc.resolve.alias).toEqual(
       expect.objectContaining({
         react: 'preact',
-      })
-    )
-  })
+      }),
+    );
+  });
 
   test('webpack output dist', () => {
     expect(webpackRc.output.path).toEqual(
-      path.resolve(process.cwd(), './dist')
-    )
-  })
+      resolve(process.cwd(), './dist'),
+    );
+  });
 
   test('admin webpack optimization split chunks', () => {
-    expect(webpackRc.optimization.splitChunks.cacheGroups).toEqual(
+    expect(webpackRc.optimization.splitChunks['cacheGroups']).toEqual(
       expect.objectContaining({
         // 抽离admin-tools
         vendor: {
@@ -76,22 +78,22 @@ describe('webpack', () => {
           enforce: true,
           priority: 1,
         },
-      })
-    )
-  })
+      }),
+    );
+  });
 
   test('test webpack optimization split chunks', () => {
-    expect(webpackRc.optimization.splitChunks.cacheGroups).toEqual(
+    expect(webpackRc.optimization.splitChunks['cacheGroups']).toEqual(
       expect.objectContaining({
         test: {
           test: /(@ant-design|antd|rc-)/,
           name: 'antd',
           chunks: 'all',
         },
-      })
-    )
-  })
-})
+      }),
+    );
+  });
+});
 
 describe('service', () => {
   test('exist plugin', () => {
@@ -99,8 +101,8 @@ describe('service', () => {
     expect(existPlugin('epig-plugin-mock')).toEqual(true);
     expect(existPlugin('epig-plugin-html')).toEqual(true);
     expect(existPlugin('epig-plugin-hd')).toEqual(true);
-    expect(existPlugin('pluginTest')).toEqual(true);
+    expect(existPlugin('function:pluginTest')).toEqual(true);
     expect(existPlugin('epig-plugin-admin')).toEqual(true);
     expect(existPlugin('epig-plugin-split-chunks')).toEqual(true);
-  })
-})
+  });
+});

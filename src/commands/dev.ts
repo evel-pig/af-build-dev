@@ -12,10 +12,6 @@ export default function () {
 
   service.applyPlugins('onStart');
 
-  console.log('service:', service.plugins);
-  console.log('service:', service.pluginHooks);
-  console.log('service:', service.pluginMethods);
-
   dev({
     webpackConfig: service.webpackConfig,
     serverConfig: {

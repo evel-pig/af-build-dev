@@ -3,7 +3,7 @@ import { resolve } from 'path';
 import { webpackHotDevClientPath } from 'af-webpack/react-dev-utils';
 import { IApi } from '../interface';
 import { paths, immitEntry } from '../utils';
-import { getPluginFromPath } from '../getPlugins';
+import { getPluginByName } from '../getPlugins';
 
 export default function (api: IApi, opts: any = {}) {
   const isDev = process.env.NODE_ENV === 'development';
@@ -23,7 +23,7 @@ export default function (api: IApi, opts: any = {}) {
   }
 
   if (!checkHtml()) {
-    api.registerPlugin(getPluginFromPath('epig-plugin-html'));
+    api.registerPlugin(getPluginByName('epig-plugin-html'));
   }
 
   api.modifyAFWebpackOpts((memo, args) => {
