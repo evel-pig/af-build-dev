@@ -1,5 +1,6 @@
 # af-build-dev
-> 基于[af-webpack](https://github.com/umijs/umi/tree/master/packages/af-webpack)的前端构建编译工具
+
+> 基于[af-webpack](https://github.com/umijs/umi/tree/master/packages/af-webpack)的前端构建编译工具，可开箱使用
 
 ## usage
 
@@ -37,40 +38,27 @@ $ epig build # 构建项目
 
 > 在此配置文件中也可以配置 .webpackrc.js 的同名配置项，会合并使用(优先级:.epigrc.js>.webpackrc.js), 但是配置在此的配置项不会进行检查。
 
-#### [plugins](./Plugins.md)
+#### plugins
 
-- 类型：Array
+- **[插件列表](./Plugins.md)**
 
-数组项支持为插件名字或者自定义方法。
-
-如果插件有参数，则通过数组的形式进行配置，第一项是插件名字或Function，第二项是参数，类似 babel 插件的配置方式。
-
-无参数
+通过数组的形式进行配置，第一项是插件名字或自定义插件，第二项(可选)为传进插件的参数，类似babel的配置方式
 
 ```js
-  plugins: [
-    ['epig-plugin-admin'],
-  ],
-```
-
-有参数
-
-```js
-  plugins: [
-    ['epig-plugin-admin', {noAutoRoute: true}],
-  ],
+plugins: [
+  ['epig-plugin-admin', {noAutoRoute: true}],
+]
 ```
 
 #### chainWebpack
 
-可支持链式配置webpack配置，参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)
+支持链式配置webpack配置，参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)
 
 ```js
 chainWebpack(config, { webpack }) {
   // 设置 alias
   config.resolve.alias.set('a', 'path/to/a');
 }
- 
 ```
 
 #### targets
