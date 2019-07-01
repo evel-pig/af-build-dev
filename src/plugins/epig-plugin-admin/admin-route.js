@@ -262,6 +262,9 @@ function loadContainer(key, chunkName, globalModels, parentPath, container, subF
     if (sub === 'components') {
       return;
     }
+    if (sub === 'hooks') {
+      return;
+    }
     const subPath = path.resolve(subFilesPath, sub);
     const stat = fs.lstatSync(subPath);
     if (!stat.isDirectory()) {
