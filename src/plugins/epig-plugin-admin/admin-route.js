@@ -256,6 +256,12 @@ function loadContainer(key, chunkName, globalModels, parentPath, container, subF
     if (sub === 'models') {
       return;
     }
+    /**
+     * 用components存放容器内组件、生成路由时忽略components
+     */
+    if (sub === 'components') {
+      return;
+    }
     const subPath = path.resolve(subFilesPath, sub);
     const stat = fs.lstatSync(subPath);
     if (!stat.isDirectory()) {
