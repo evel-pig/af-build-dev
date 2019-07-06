@@ -80,6 +80,16 @@ function generateImport(chunkName, path) {
   return `() => import (/* webpackChunkName: ^${chunkName}^ */\r\n      '${path}')`;
 }
 
+function isIgnoreFile(fileName) {
+  /**
+   * 排除文件
+   * .DS_Store
+   * hooks
+   * components
+   */
+  return fileName === '.DS_Store' || fileName === 'hooks' || fileName === 'components';
+}
+
 function getRouterInfo(containersPath, dev, noModel) {
   const routerInfos = [];
   let chunkFolders = [];
@@ -88,18 +98,20 @@ function getRouterInfo(containersPath, dev, noModel) {
   }
   const globalModels = getGlobalModels(utils.resolveApp('src/models'));
   chunkFolders.forEach(chunkFolder => {
+    if (isIgnoreFile(chunkFolder)) {
+      return;
+    }
     const folderPath = path.resolve(containersPath, chunkFolder);
     const containers = fs.readdirSync(folderPath);
     const chunkName = lowerFirstCase(chunkFolder);
     const isIndex = fs.existsSync(path.resolve(folderPath, 'index.tsx'));
     let currentGlobalModels = [...globalModels];
     containers.forEach(container => {
-      // 排除临时文件
-      if (container === '.DS_Store') {
-        return;
-      }
       // 如果是models文件夹，跳过
       if (container === 'models') {
+        return;
+      }
+      if (isIgnoreFile(container)) {
         return;
       }
       let components = {};
@@ -198,6 +210,9 @@ function getGlobalModels(globalModelPath) {
     modelFiles = fs.readdirSync(modelsPath);
   }
   modelFiles.forEach(model => {
+    if (isIgnoreFile(model)) {
+      return;
+    }
     if (model.match(/\.(ts|tsx)$/)) {
       const modelName = model.match(/(\w*)\./)[1];
       if (modelName !== 'index') {
@@ -227,6 +242,9 @@ function loadModels(chunkName, currentPath) {
   if (fs.existsSync(currentPath)) {
     const modelFiles = fs.readdirSync(currentPath);
     modelFiles.forEach(model => {
+      if (isIgnoreFile(model)) {
+        return;
+      }
       const modelPath = path.resolve(currentPath, model);
       const stat = fs.lstatSync(modelPath);
       if (!stat.isDirectory()) {
@@ -256,13 +274,7 @@ function loadContainer(key, chunkName, globalModels, parentPath, container, subF
     if (sub === 'models') {
       return;
     }
-    /**
-     * 用components存放容器内组件、生成路由时忽略components
-     */
-    if (sub === 'components') {
-      return;
-    }
-    if (sub === 'hooks') {
+    if (isIgnoreFile(sub)) {
       return;
     }
     const subPath = path.resolve(subFilesPath, sub);
