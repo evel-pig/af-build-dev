@@ -16,7 +16,7 @@ function MOCK_END(req, res, next) {
 module.exports = function (pluginApi) {
   pluginApi.register('beforeServerWithApp', ({ args: { app } }) => {
     function getMockConfig() {
-      const { mockConfig, absNodeModules } = utils.paths;
+      const { mockConfig, absNodeModules, cwd } = utils.paths;
 
       if (fs.existsSync(mockConfig)) {
         console.log(chalk.green('启动mock:'));
@@ -42,7 +42,7 @@ module.exports = function (pluginApi) {
     function outputError(error) {
       if (!error) return;
       const filePath = error.message.split(': ')[0];
-      const relativeFilePath = filePath.replace(appPath, '.');
+      const relativeFilePath = filePath.replace(cwd, '.');
       const errors = error.stack.split('\n')
         .filter(line => line.trim().indexOf('at ') !== 0)
         .map(line => line.replace(`${filePath}: `, ''));
