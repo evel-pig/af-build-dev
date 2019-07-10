@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 import { Button } from 'antd-mobile';
-import styles from './index.less';
+import Login from '@app/components/Login';
 import txt from './assets/test.txt';
 
 class App extends Component {
@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <div>
         <Button>button</Button>
-        <div className={styles['login']} />
+        <Login />
         <div>{txt}</div>
       </div>
     );
