@@ -2,9 +2,17 @@ import chokidar from 'chokidar';
 import { existsSync, readdirSync, statSync, mkdirSync, writeFileSync } from 'fs';
 import { removeSync } from 'fs-extra';
 import { join, resolve, isAbsolute } from 'path';
+import isPlainObject from 'is-plain-object';
 import { IApi } from '../interface';
 
 export default function (api: IApi, opts: any = []) {
+
+  if (isPlainObject(opts)) {
+    opts = [opts];
+  } else if (!Array.isArray(opts)) {
+    throw new Error('epig-plugin-enhance-copy 配置项参数应为 Array 或 Object 格式');
+  }
+
   api.modifyAFWebpackOpts((memo, args) => {
     const copy = opts.map(config => {
       const { mapOutput, disableMap, ...rest } = config;
@@ -59,11 +67,11 @@ function buildMap(config, publicPath) {
         // 判断是否文件
         const isFile = stats.isFile();
         if (isFile) {
-          const targetPath = filedir.replace(sourcePath, publicPath + config.to);
+          const targetPath = filedir.replace(sourcePath, publicPath + (config.to || ''));
           // 使用文件名字作为key;
           const key = filename.split('.')[0];
           if (key) {
-            map[key] = targetPath;
+            map[key] = targetPath.replace('\/\/', '\/'); // 修正路径
           }
         }
       });

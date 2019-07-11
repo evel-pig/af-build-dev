@@ -1,44 +1,19 @@
-import dev from 'af-webpack/dev';
-import Service from '../Service';
-import fs from 'fs';
-import path from 'path';
+import fork from 'af-webpack/lib/fork';
 
-export default function () {
-  process.env.NODE_ENV = 'development';
+const child = fork(require.resolve('./realDev.js'));
 
-  const service = new Service();
+child.on('message', data => {
+  if (process.send) {
+    process.send(data);
+  }
+});
 
-  service.init();
+child.on('exit', code => {
+  if (code === 1) {
+    process.exit(code);
+  }
+});
 
-  service.applyPlugins('onStart');
-
-  dev({
-    webpackConfig: service.webpackConfig,
-    serverConfig: {
-      historyApiFallback: {
-        disableDotRule: true,
-      },
-    },
-    _beforeServerWithApp(app) {
-      // @private
-      service.applyPlugins('beforeServerWithApp', {
-        args: { app },
-      });
-    },
-    beforeServer(devServer) {
-      service.applyPlugins('beforeDevServer', {
-        args: { devServer },
-      });
-    },
-    afterServer(devServer) {
-      service.applyPlugins('afterDevServer', {
-        args: { devServer },
-      });
-    },
-    onCompileDone({ isFirstCompile, stats }) {
-      service.applyPlugins('onDevCompileDone', {
-        args: { stats },
-      });
-    },
-  });
-}
+process.on('SIGINT', () => {
+  child.kill('SIGINT');
+});

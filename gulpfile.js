@@ -24,6 +24,8 @@ function tsc(cb) {
 };
 
 function dev() {
+  gulp.parallel(copy, tsc)();
+
   const watcher = [];
   watcher.push(gulp.watch('src/**/*.ts', tsc));
   watcher.push(gulp.watch('src/**/!(*.ts)', copy));

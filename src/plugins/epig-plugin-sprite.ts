@@ -21,7 +21,7 @@ export default function (api: IApi, opts: any = {}) {
         css: resolve(paths.cwd, `src/.epig-sprite/${baseName}.less`),
       },
       apiOptions: {
-        cssImageRef: `./.epig-sprite/${baseName}.png`,
+        cssImageRef: `${baseName}.png`,
       },
       spritesmithOptions: {
         padding: 5,
