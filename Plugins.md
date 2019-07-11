@@ -6,7 +6,6 @@
 const builtInPlugins = [
   'afwebpack-config',
   'epig-plugin-mock',
-  'epig-plugin-copy-server',
 ];
 ```
 
@@ -15,17 +14,8 @@ const builtInPlugins = [
 - **自动配置HTML**，自动默认配置html模板;
 - **默认配置动态加载**，默认配置`ant-design`和`antd-mobile`按需加载;
 - **Mock功能支持**，自动开启mock功能;
-- **server文件复制**，若存在server文件夹,构建完成自动copy server文件夹;
 
-## 插件列表
-
-### afwebpack-config
-
-内置自定义webpack配置项
-
-### epig-plugin-mock
-
-mock功能
+## 可配置插件列表
 
 ### epig-plugin-admin
 

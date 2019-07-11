@@ -18,14 +18,11 @@ export interface Plugin {
 const builtInPlugins = [
   'afwebpack-config',
   'epig-plugin-mock',
-  'epig-plugin-copy-server',
 ];
 
 const pluginNames = readdirSync(paths.pluginsPath)
   .filter(name => name.indexOf('.d.ts') < 0)
-  .map(name => {
-    return name.replace(/\.(ts|js)/, '');
-  });
+  .map(name => name.replace(/\.(ts|js)/, ''));
 
 export function getPluginByName(pluginName, opts = {}) {
   let plugin;
@@ -47,6 +44,8 @@ export function getPluginByName(pluginName, opts = {}) {
 
 export default function (opts: GetPluginsOpts = {}) {
   const plugins: Plugin[] = [];
+
+  // TODO:opts.plugins插件过滤builtInPlugins;
 
   [
     ...builtInPlugins,
