@@ -151,9 +151,9 @@ mock功能
 
 插件及hooks执行顺序:
 
-- **插件触发顺序:**按照`内置插件-->配置插件`顺序执行
+- **插件触发顺序**，按照`内置插件-->配置插件`顺序执行;
 
-- **hooks触发顺序:**如下类型定义代码顺序
+- **hooks触发顺序**，如下类型定义代码顺序;
 
 举例:插件配置顺序为`插件A-->插件B`,`插件A`存在`modifyAFWebpackOpts`以及`chainWebpackConfig`hooks,`插件B`存在`modifyAFWebpackOpts`hooks;
 
