@@ -75,6 +75,16 @@ export default function (api: IApi, opts: any = {}) {
     return `() => import (/* webpackChunkName: ^${chunkName}^ */\r\n      '${path}')`;
   }
 
+  function isIgnoreFile(fileName) {
+    /**
+     * 排除文件
+     * .DS_Store
+     * hooks
+     * components
+     */
+    return fileName === '.DS_Store' || fileName === 'hooks' || fileName === 'components';
+  }
+
   function getRouterInfo(containersPath, dev, noModel) {
     const routerInfos = [];
     let chunkFolders = [];
@@ -83,18 +93,20 @@ export default function (api: IApi, opts: any = {}) {
     }
     const globalModels = getGlobalModels(resolve('src/models'));
     chunkFolders.forEach(chunkFolder => {
+      if (isIgnoreFile(chunkFolder)) {
+        return;
+      }
       const folderPath = resolve(containersPath, chunkFolder);
       const containers = readdirSync(folderPath);
       const chunkName = lowerFirstCase(chunkFolder);
       const isIndex = existsSync(resolve(folderPath, 'index.tsx'));
       let currentGlobalModels = [...globalModels];
       containers.forEach(container => {
-        // 排除临时文件
-        if (container === '.DS_Store') {
-          return;
-        }
         // 如果是models文件夹，跳过
         if (container === 'models') {
+          return;
+        }
+        if (isIgnoreFile(container)) {
           return;
         }
         let components = {};
@@ -190,6 +202,9 @@ export default function (api: IApi, opts: any = {}) {
       modelFiles = readdirSync(modelsPath);
     }
     modelFiles.forEach(model => {
+      if (isIgnoreFile(model)) {
+        return;
+      }
       if (model.match(/\.(ts|tsx)$/)) {
         const modelName = model.match(/(\w*)\./)[1];
         if (modelName !== 'index') {
@@ -219,6 +234,9 @@ export default function (api: IApi, opts: any = {}) {
     if (existsSync(currentPath)) {
       const modelFiles = readdirSync(currentPath);
       modelFiles.forEach(model => {
+        if (isIgnoreFile(model)) {
+          return;
+        }
         const modelPath = resolve(currentPath, model);
         const stat = lstatSync(modelPath);
         if (!stat.isDirectory()) {
@@ -246,6 +264,9 @@ export default function (api: IApi, opts: any = {}) {
     const subContainers = readdirSync(subFilesPath);
     subContainers.forEach(sub => {
       if (sub === 'models') {
+        return;
+      }
+      if (isIgnoreFile(sub)) {
         return;
       }
       const subPath = resolve(subFilesPath, sub);

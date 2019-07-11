@@ -1,15 +1,23 @@
 # Plugins
 
-插件执行顺序:按照内置插件顺序执行,然后按照`.epigrc.js`配置中`plugins`顺序执行
+## 内置插件
 
-内置插件
+插件执行顺序:按照内置插件顺序执行,然后按照`.epigrc.js`配置中`plugins`顺序执行
 
 ```js
 const builtInPlugins = [
   'afwebpack-config',
   'epig-plugin-mock',
+  'epig-plugin-copy-server',
 ];
 ```
+
+**自动配置入口**，自动默认查找`src/index.tsx`或者`src/index.jsx`入口;
+**默认配置polyfill**,默认在`modifyWebpackConfig`hooks入口处添加`polyfill`依赖;
+**自动配置HTML**，自动默认配置html模板;
+**默认配置动态加载**，默认配置`ant-design`和`antd-mobile`按需加载;
+**Mock功能支持**，自动开启mock功能;
+**server文件复制**，若存在server文件夹,构建完成自动copy server文件夹;
 
 ## 插件列表
 
@@ -34,18 +42,17 @@ mock功能
 | noAutoModel | 禁止自动生成model | boolean | undefined |
 | noSplitChunks | 禁止拆分代码 | boolean | undefined |
 | async | - | boolean | undefined | 
-| cacheGroups | 拆分代码规则,noSplitChunks为true时该配置不起作用 | object | [Link](https://github.com/evel-pig/af-build-dev/blob/master/src/plugins/epig-plugin-admin/index.js#L35) |
+| cacheGroups | 拆分代码规则,noSplitChunks为true时该配置不起作用 | object | [Link](https://github.com/evel-pig/af-build-dev/blob/master/src/plugins/epig-plugin-admin/index.ts#L35) |
 
 ### epig-plugin-copy-server
 
-拷贝项目根目录的`server`文件夹
+拷贝项目根目录的`server`文件夹,若epigrc没有配置`outputPath`输出路径，会将`outputPath`设置为`dist/static`
 
 - 类型: Object
 
 | NAME | NOTES | TYPE | DEFAULT_VALUE |
 | --- | --- | --- | --- |
-| output | 输出目录 | string | 同webpack.output.path |
-
+| output | 输出目录 | string | dist |
 
 ### epig-plugin-hd
 
@@ -60,7 +67,7 @@ mock功能
 
 ### epig-plugin-split-chunks
 
-拆分JS bundle包
+拆分JS bundle包，development开发环境下不拆分代码
 
 类型: Object
 
@@ -68,8 +75,7 @@ mock功能
 
 | NAME | NOTES | TYPE | DEFAULT_VALUE |
 | --- | --- | --- | --- |
-| disableMap | 禁止生成map的.ts文件 | boolean | false |
-| mapOutput | 输出ts文件的路径 | string | src/.copy-map |
+| force | development和prodution环境下都拆分代码 | boolean | false |
 
 ### epig-plugin-html
 

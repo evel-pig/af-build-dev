@@ -5,14 +5,21 @@ import { paths } from '../utils';
 import { IApi } from '../interface';
 
 export default function (api: IApi, opts: any = {}) {
-  api.onBuildSuccess(() => {
-    if (pathExistsSync(paths.serverPath)) {
-      const webpackConfig = api.service.webpackConfig;
+  if (pathExistsSync(paths.serverPath)) {
+
+    api.modifyAFWebpackOpts((memo, args) => {
+      if (!memo.outputPath) {
+        memo.outputPath = 'dist/static';
+      }
+      return memo;
+    });
+
+    api.onBuildSuccess(() => {
       let distPath;
       if (opts.output) {
-        distPath = resolve(opts.output);
+        distPath = resolve(paths.cwd, opts.output);
       } else {
-        distPath = webpackConfig.output.path;
+        distPath = resolve(paths.cwd, 'dist');
       }
 
       copy(paths.serverPath, distPath, {
@@ -25,6 +32,6 @@ export default function (api: IApi, opts: any = {}) {
         console.log(chalk.green(`拷贝server文件夹到${distPath}成功`));
         console.log('');
       });
-    }
-  });
+    });
+  }
 }

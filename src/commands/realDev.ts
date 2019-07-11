@@ -26,8 +26,6 @@ service.init();
 
 service.applyPlugins('onStart');
 
-console.log('service:', service.webpackConfig.resolve);
-
 dev({
   webpackConfig: service.webpackConfig,
   serverConfig: {

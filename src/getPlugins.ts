@@ -18,6 +18,7 @@ export interface Plugin {
 const builtInPlugins = [
   'afwebpack-config',
   'epig-plugin-mock',
+  'epig-plugin-copy-server',
 ];
 
 const pluginNames = readdirSync(paths.pluginsPath)
