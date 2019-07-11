@@ -2,8 +2,6 @@
 
 ## 内置插件
 
-插件执行顺序:按照内置插件顺序执行,然后按照`.epigrc.js`配置中`plugins`顺序执行
-
 ```js
 const builtInPlugins = [
   'afwebpack-config',
@@ -12,12 +10,12 @@ const builtInPlugins = [
 ];
 ```
 
-**自动配置入口**，自动默认查找`src/index.tsx`或者`src/index.jsx`入口;
-**默认配置polyfill**,默认在`modifyWebpackConfig`hooks入口处添加`polyfill`依赖;
-**自动配置HTML**，自动默认配置html模板;
-**默认配置动态加载**，默认配置`ant-design`和`antd-mobile`按需加载;
-**Mock功能支持**，自动开启mock功能;
-**server文件复制**，若存在server文件夹,构建完成自动copy server文件夹;
+- **自动配置入口**，自动默认查找`src/index.tsx`或者`src/index.jsx`入口;
+- **默认配置polyfill**,默认在`modifyWebpackConfig`hooks入口处添加`polyfill`依赖;
+- **自动配置HTML**，自动默认配置html模板;
+- **默认配置动态加载**，默认配置`ant-design`和`antd-mobile`按需加载;
+- **Mock功能支持**，自动开启mock功能;
+- **server文件复制**，若存在server文件夹,构建完成自动copy server文件夹;
 
 ## 插件列表
 
@@ -151,7 +149,14 @@ mock功能
 
 ### api hooks
 
-hooks触发顺序为以下顺序
+插件及hooks执行顺序:
+
+插件触发顺序:按照`内置插件-->配置插件`顺序执行
+hooks触发顺序:如下类型定义代码顺序
+
+举例:插件配置顺序为`插件A-->插件B`,`插件A`存在`modifyAFWebpackOpts`以及`chainWebpackConfig`hooks,`插件B`存在`modifyAFWebpackOpts`hooks;
+那么事件触发顺序为:`插件A modifyAFWebpackOpts`-->`插件B modifyAFWebpackOpts`-->`插件A chainWebpackConfig`;
+
 
 ```ts
 export type EventMethod<T = {}> = (fn: (args: T) => void) => void;
