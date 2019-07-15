@@ -3,7 +3,7 @@ import { IApi } from '../interface';
 
 export default function (api: IApi, opts: any = {}) {
 
-  if (process.env.NODE_ENV === 'development' || !opts.force) {
+  if (process.env.NODE_ENV === 'development' && !opts.force) {
     return;
   }
 

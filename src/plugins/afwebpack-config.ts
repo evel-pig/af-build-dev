@@ -7,7 +7,7 @@ import { getPluginByName } from '../getPlugins';
 
 export default function (api: IApi, opts: any = {}) {
   const isDev = process.env.NODE_ENV === 'development';
-  const { targets = {}, treeShaking } = api.service.config;
+  const { targets = {}, treeShaking, gzip } = api.service.config;
 
   function checkHtml() {
     const { plugins } = api.service;
@@ -56,14 +56,29 @@ export default function (api: IApi, opts: any = {}) {
         ...(memo.extraBabelPresets || []),
       ],
       extraBabelPlugins: [
-        [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }],
+        [require.resolve('babel-plugin-import'), { libraryName: 'antd', style: true }, 'antd'],
         [require.resolve('babel-plugin-import'), { libraryName: 'antd-mobile', style: true }, 'antd-mobile'],
+        [require.resolve('babel-plugin-import'), {
+          libraryName: 'ant-design-pro',
+          libraryDirectory: 'lib',
+          style: true,
+          camel2DashComponentName: false,
+        }, 'ant-design-pro'],
         ...(memo.extraBabelPlugins || []),
       ],
     };
   });
 
   api.chainWebpackConfig(({ chainWebpack }) => {
+
+    if (!isDev && gzip) {
+      chainWebpack
+        .plugin(`compression`)
+        .use(require('compression-webpack-plugin'), [{
+          test: /\.js(\?.*)?$/i,
+        }]);
+    }
+
     chainWebpack.resolve.modules.add(resolve('src/styles'));
     // 添加txt文件打包支持
     chainWebpack.module

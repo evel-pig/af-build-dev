@@ -12,8 +12,10 @@ const builtInPlugins = [
 - **自动配置入口**，自动默认查找`src/index.tsx`或者`src/index.jsx`入口;
 - **默认配置polyfill**，默认在`modifyWebpackConfig`hooks入口处添加`polyfill`依赖;
 - **自动配置HTML**，自动默认配置html模板;
-- **默认配置动态加载**，默认配置`ant-design`和`antd-mobile`按需加载;
+- **默认配置动态加载**，默认配置`ant-design`,`antd-mobile`,`ant-design-pro`按需加载;
 - **Mock功能支持**，自动开启mock功能;
+- **gzip功能支持**，支持一键开启gzip功能;
+- **支持tress**
 
 ## 可配置插件列表
 
@@ -50,7 +52,7 @@ const builtInPlugins = [
 | --- | --- | --- | --- |
 | theme | less变量 | Object | {} |
 | px2rem | px2rem配置项 | Object | {} |
-| inject | 自动注入高清脚本和fastclick | boolean | false |
+| noInject | 禁止自动注入高清脚本和fastclick | boolean | flase |
 | psdWidth | 设计稿的宽度, inject为true时该配置项才生效 | 750 |
 
 ### epig-plugin-split-chunks
@@ -172,7 +174,7 @@ export interface IApi extends IPluginApi {
 ```
 
 tips:
-- modify类的hook接收2个参数,且必须返回第一个参数
+- modify类的hook接收2个参数,且必须返回第一个参数,非modify类的hook只接收1个参数
 
 ### 自定义插件Demo
 

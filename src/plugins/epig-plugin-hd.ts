@@ -23,7 +23,7 @@ export default function (api: IApi, opts: any = {}) {
     return memo;
   });
 
-  if (opts.inject) {
+  if (!opts.noInject) {
     api.chainWebpackConfig(({ chainWebpack }) => {
       chainWebpack
         .plugin(`html-hd`)

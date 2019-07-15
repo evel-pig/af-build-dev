@@ -55,11 +55,12 @@ export type IPlugin<T = any> = string | [string, T];
 
 export interface EpigConfig extends IAFWebpackConfig {
   plugins?: IPlugin[];
-  chainWebpack?: (chainWebpack: IWebpackChainConfig, { webpack: webpack }) => void;
+  chainWebpack?: (chainWebpack: IWebpackChainConfig, { webpack }) => void;
   treeShaking?: boolean;
   targets?: {
     [key: string]: number;
   };
+  gzip?: boolean;
 }
 
 export type EventMethod<T = {}> = (fn: (args: T) => void) => void;

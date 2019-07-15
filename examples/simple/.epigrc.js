@@ -1,8 +1,9 @@
-const path = require('path');
 module.exports = {
+  gzip: true,
   plugins: [
-    ['epig-plugin-hd', { inject: true }],
-    ['epig-plugin-enhance-copy', { from: path.resolve(__dirname, './src/assets/copy') }],
+    ['epig-plugin-copy-server', {}],
+    ['epig-plugin-hd', {}],
+    ['epig-plugin-enhance-copy', { from: 'src/assets/copy', to: 'assets' }],
     ['epig-plugin-split-chunks', {
       cacheGroups: {
         test: {
@@ -14,8 +15,8 @@ module.exports = {
     }],
     ['epig-plugin-sprite', {
       src: {
-        cwd: path.resolve(__dirname, './src/assets/icons'),
+        cwd: 'src/assets/icons',
       },
     }]
-  ]
+  ],
 }
