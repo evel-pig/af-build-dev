@@ -15,7 +15,6 @@ const builtInPlugins = [
 - **默认配置动态加载**，默认配置`ant-design`,`antd-mobile`,`ant-design-pro`按需加载;
 - **Mock功能支持**，自动开启mock功能;
 - **gzip功能支持**，支持一键开启gzip功能;
-- **支持tress**
 
 ## 可配置插件列表
 
