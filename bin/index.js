@@ -1,21 +1,19 @@
 #!/usr/bin/env node
 
 const program = require('commander');
-const dev = require('../src/dev');
-const build = require('../src/build');
 
 program
   .command('dev')
   .description('run dev server')
   .action(() => {
-    dev();
+    require('../lib/commands/dev');
   });
 
 program
   .command('build')
   .description('run build')
   .action(() => {
-    build();
+    require('../lib/commands/build');
   });
 
 program.parse(process.argv);
