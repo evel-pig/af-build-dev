@@ -80,7 +80,7 @@ targets: {
 
 #### gzip
 
-构建时是否开启gzip压缩，生成的gz文件需配合`express-static-gzip`使用。参考[example](https://github.com/evel-pig/af-build-dev/blob/ts/examples/simple/server/server.js)
+构建时是否开启gzip压缩，生成的gz文件需配合`express-static-gzip`使用。参考[example](https://github.com/evel-pig/af-build-dev/blob/master/examples/simple/server/server.js)
 
 - 类型 Boolean
 
