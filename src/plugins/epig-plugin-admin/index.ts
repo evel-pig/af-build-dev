@@ -48,7 +48,7 @@ export default function (api: IApi, opts: any = {}) {
         },
         // 抽离antd && rc-*
         antd: {
-          test: /(@ant-design|antd|rc-)/,
+          test: /[\\/]node_modules[\\/](@ant-design|antd|rc-)/,
           name: 'antd',
           chunks: 'all',
           enforce: true,
