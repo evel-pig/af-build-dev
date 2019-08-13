@@ -5,16 +5,27 @@ import launchRouterPoint from './launchRouterPoint';
 import { IApi } from '../../interface';
 import { immitEntry } from '../../utils';
 
+interface AdminRouteOptions {
+  async: boolean;
+  noAutoModel: boolean;
+  containerPath: string;
+  commonContainerPath: string;
+}
+
 const loadUrls = [];
 
-export default function (api: IApi, opts: any = {}) {
+export default function (api: IApi, opts: Partial<AdminRouteOptions> = {}) {
   const { async, noAutoModel } = opts;
   const dev = process.env.NODE_ENV === 'development';
 
-  const containersPath = resolve('src/containers');
+  const containersPath = opts.containerPath || resolve('src/containers');
+  const commonContainersPath = opts.commonContainerPath || resolve('src/commonContainers');
   const tmpFolderPath = resolve('src/.admin-tools');
 
   startGenerateRoutes(containersPath, dev && async, noAutoModel);
+  startGenerateCommonContainers(commonContainersPath);
+
+  const watchers = [];
 
   if (dev) {
     if (async) {
@@ -35,7 +46,17 @@ export default function (api: IApi, opts: any = {}) {
         });
       });
     } else {
-      watch(containersPath, noAutoModel);
+      createWatch(containersPath, () => {
+        startGenerateRoutes(containersPath, false, noAutoModel);
+      });
+      createWatch(commonContainersPath, () => {
+        startGenerateCommonContainers(commonContainersPath);
+      });
+      process.on('SIGINT', () => {
+        watchers.map(watcher => {
+          watcher.close();
+        });
+      });
     }
   }
 
@@ -44,25 +65,27 @@ export default function (api: IApi, opts: any = {}) {
     generateRoutes(routes);
   }
 
-  function watch(targetPath, noAutoModel) {
-    //  监听containers文件夹，有修改时重新生成router
+  function createWatch(targetPath, handle) {
     const watcher = chokidar.watch(targetPath);
     watcher.on('change', () => {
-      startGenerateRoutes(targetPath, false, noAutoModel);
+      handle();
     });
     watcher.on('add', () => {
-      startGenerateRoutes(targetPath, false, noAutoModel);
+      handle();
     });
     watcher.on('unlink', () => {
-      startGenerateRoutes(targetPath, false, noAutoModel);
+      handle();
     });
-    process.on('SIGINT', () => {
-      watcher.close();
-    });
+    watchers.push(watcher);
+  }
+
+  function startGenerateCommonContainers(containersPath) {
+    const routes = getCommonContainers(containersPath);
+    generateCommonContainers(routes);
   }
 
   function generateRoutes(routes) {
-    // 价值route模板文件
+    // route模板文件
     const routeTplPath = resolve(__dirname, './template/router.js.tpl');
     let tplContent = readFileSync(routeTplPath, 'utf-8');
     tplContent = tplContent.replace('<%= routes %>', () => routes);
@@ -73,6 +96,35 @@ export default function (api: IApi, opts: any = {}) {
 
   function generateImport(chunkName, path) {
     return `() => import (/* webpackChunkName: ^${chunkName}^ */\r\n      '${path}')`;
+  }
+
+  function getCommonContainers(containersPath) {
+    let chunkFolders = [];
+    const result = {};
+    if (existsSync(containersPath)) {
+      chunkFolders = readdirSync(containersPath);
+    }
+    chunkFolders.map(chunk => {
+      const chunkPath = resolve(containersPath, chunk);
+      result[chunk] = {
+        component: generateImport('cContainers', chunkPath),
+        models: getModels('cContainers', chunkPath),
+      };
+    });
+
+    const routes = stripRouteQuote(result);
+
+    return routes;
+  }
+
+  function generateCommonContainers(commonContainers) {
+    // commonContainers模板文件
+    const routeTplPath = resolve(__dirname, './template/commonContainers.js.tpl');
+    let tplContent = readFileSync(routeTplPath, 'utf-8');
+    tplContent = tplContent.replace('<%= containers %>', () => commonContainers);
+
+    const routerPath = resolve(tmpFolderPath, 'commonContainers.ts');
+    writeFileSync(routerPath, tplContent, { encoding: 'utf-8' });
   }
 
   function isIgnoreFile(fileName) {
@@ -165,33 +217,34 @@ export default function (api: IApi, opts: any = {}) {
       });
     });
 
-    let routes = JSON.stringify(routerInfos, null, 2);
-    function stripRouteQuote(routesStr) {
-      routesStr = routesStr
-        .replace(/\"(\w+)\": (\"(.+?)\")/g, (global, m1, m2) => {
-          if (m1 === 'path') {
-            return global;
-          }
-          return `'${m1}': ${m2.replace(/\"/g, '').replace(/\^/g, '"')}`;
-        })
-        .replace(/\"require\((.+?)\)"/g, (global, m1) => {
-          return `require('${m1}')`;
-        })
-        .replace(/(\"\((.+?)\)\")/g, (global, m1) => {
-          return `${m1.replace(/\"/g, '').replace(/\^/g, '"').replace(/\.tsx?/, '')}`;
-        })
-        .replace(/\\r\\n/g, '\r\n')
-        .replace(/\\n/g, '\r\n')
-        .replace(/\"/g, '\'')
-        .replace(/\}(?!,)/g, '},')
-        .replace(/](?!,)/g, '],')
-        .replace(/,$/g, '')
-        .replace(/'\)(?!,)/g, '\'),');
-      return routesStr;
-    }
-    routes = stripRouteQuote(routes);
+    const routes = stripRouteQuote(routerInfos);
 
     return routes;
+  }
+
+  function stripRouteQuote(routeInfos) {
+    let routesStr = JSON.stringify(routeInfos, null, 2);
+    routesStr = routesStr
+      .replace(/\"(\w+)\": (\"(.+?)\")/g, (global, m1, m2) => {
+        if (m1 === 'path') {
+          return global;
+        }
+        return `'${m1}': ${m2.replace(/\"/g, '').replace(/\^/g, '"')}`;
+      })
+      .replace(/\"require\((.+?)\)"/g, (global, m1) => {
+        return `require('${m1}')`;
+      })
+      .replace(/(\"\((.+?)\)\")/g, (global, m1) => {
+        return `${m1.replace(/\"/g, '').replace(/\^/g, '"').replace(/\.tsx?/, '')}`;
+      })
+      .replace(/\\r\\n/g, '\r\n')
+      .replace(/\\n/g, '\r\n')
+      .replace(/\"/g, '\'')
+      .replace(/\}(?!,)/g, '},')
+      .replace(/](?!,)/g, '],')
+      .replace(/,$/g, '')
+      .replace(/'\)(?!,)/g, '\'),');
+    return routesStr;
   }
 
   function getGlobalModels(globalModelPath) {
