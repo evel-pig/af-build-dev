@@ -30,6 +30,10 @@ export default function (api: IApi, opts: any = {}) {
     adminRoute(api, opts);
   }
 
+  if (!opts.noAutoCopy) {
+    api.registerPlugin(getPluginByName('epig-plugin-copy-server'));
+  }
+
   if (!opts.noSplitChunks) {
     api.registerPlugin(getPluginByName('epig-plugin-split-chunks', {
       cacheGroups: {

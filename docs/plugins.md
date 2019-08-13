@@ -29,8 +29,9 @@ const builtInPlugins = [
 | noAutoEntry | 禁止自动生成入口 | boolean | undefined |
 | noAutoRoute | 禁止自动生成路由 | boolean | undefined |
 | noAutoModel | 禁止自动生成model | boolean | undefined |
-| noSplitChunks | 禁止拆分代码 | boolean | undefined |
-| async | - | boolean | undefined | 
+| noAutoCopy | 禁止自动拷贝根目录server文件夹(epig-plugin-copy-server) | boolean | undefined |
+| noSplitChunks | 禁止拆分代码(epig-plugin-split-chunks) | boolean | undefined |
+| async | - | boolean | undefined |
 | cacheGroups | 拆分代码规则,noSplitChunks为true时该配置不起作用 | object | [Link](https://github.com/evel-pig/af-build-dev/blob/master/src/plugins/epig-plugin-admin/index.ts#L34) |
 
 ### epig-plugin-copy-server

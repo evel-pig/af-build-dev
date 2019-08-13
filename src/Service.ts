@@ -5,7 +5,6 @@ import { paths } from './utils';
 import PluginAPI from './PluginApi';
 import getPlugins, { Plugin } from './getPlugins';
 import UserConfig from './UserConfig';
-import getWebpackConfig from './getWebpackConfig';
 import { Configuration, EpigConfig } from './interface';
 
 export interface Options {
@@ -45,14 +44,14 @@ export default class Service {
 
   init() {
     const userConfig = new UserConfig(this);
-    this.config = userConfig.getUserConfig();
+    this.config = userConfig.getEpigConfig();
 
-    // resolve plugins
-    this.plugins = this.resolvePlugins();
+    // resolve & init plugins
+    this.resolvePlugins();
     this.initPlugins();
 
     // get webpack config
-    this.webpackConfig = getWebpackConfig(this);
+    this.webpackConfig = userConfig.getWebpackConfig();
   }
 
   resolvePlugins() {
@@ -63,7 +62,7 @@ export default class Service {
           typeof this.config.plugins,
         )}`,
       );
-      return getPlugins({
+      this.plugins = getPlugins({
         plugins: this.config.plugins || [],
       });
     } catch (e) {

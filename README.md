@@ -40,7 +40,7 @@ $ epig build # 构建项目
 
 #### plugins
 
-- **[插件列表](./Plugins.md)**
+- **[插件列表](./docs/plugins.md)**
 
 - 类型 Array
 

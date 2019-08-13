@@ -29,7 +29,8 @@
   "files": [
     "bin",
     "lib",
-    "public"
+    "public",
+    "doc"
   ],
   "bin": {
     "epig": "./bin/index.js"
