@@ -33,6 +33,8 @@ const builtInPlugins = [
 | noSplitChunks | 禁止拆分代码(epig-plugin-split-chunks) | boolean | undefined |
 | async | - | boolean | undefined |
 | cacheGroups | 拆分代码规则,noSplitChunks为true时该配置不起作用 | object | [Link](https://github.com/evel-pig/af-build-dev/blob/master/src/plugins/epig-plugin-admin/index.ts#L34) |
+| containerPath | 自定义containers路径 | string | src/containers |
+| commonContainerPath | 自定义common containers路径 | string | src/commonContainers |
 
 ### epig-plugin-copy-server
 

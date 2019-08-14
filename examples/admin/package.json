@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@epig/admin-tools": "^1.19.0",
+    "@epig/admin-tools": "^1.19.1",
     "admin-util": "file:src/util",
     "antd": "^3.21.4",
     "classnames": "^2.2.6",
