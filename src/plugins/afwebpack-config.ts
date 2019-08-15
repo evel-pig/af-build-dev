@@ -4,10 +4,12 @@ import { webpackHotDevClientPath } from 'af-webpack/react-dev-utils';
 import { IApi } from '../interface';
 import { paths, immitEntry } from '../utils';
 import { getPluginByName } from '../getPlugins';
+import Compression from 'compression-webpack-plugin';
+import ScriptEnhance from '../webpack-plugins/webpack-plugin-script-enhance';
 
 export default function (api: IApi, opts: any = {}) {
   const isDev = process.env.NODE_ENV === 'development';
-  const { targets = {}, treeShaking, gzip } = api.service.config;
+  const { targets = {}, treeShaking, gzip, scripts = [] } = api.service.config;
 
   function checkHtml() {
     const { plugins } = api.service;
@@ -73,10 +75,16 @@ export default function (api: IApi, opts: any = {}) {
 
     if (!isDev && gzip) {
       chainWebpack
-        .plugin(`compression`)
-        .use(require('compression-webpack-plugin'), [{
+        .plugin('gzip')
+        .use(Compression, [{
           test: /\.js(\?.*)?$/i,
         }]);
+    }
+
+    if (scripts.length > 0) {
+      chainWebpack
+        .plugin('html-script-enhance')
+        .use(ScriptEnhance, [scripts]);
     }
 
     chainWebpack.resolve.modules.add(resolve('src/styles'));

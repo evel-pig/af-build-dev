@@ -1,6 +1,6 @@
 # af-build-dev
 
-> 基于[af-webpack](https://github.com/umijs/umi/tree/master/packages/af-webpack)的前端构建编译工具，可开箱使用
+> 基于[af-webpack](https://github.com/umijs/umi/tree/master/packages/af-webpack)的前端构建编译工具，可零配置开箱使用
 
 ## usage
 
@@ -8,6 +8,7 @@
 
 ```bash
 $ npm i @epig/af-build-dev --save-dev
+$ npm i @epig/af-build-dev -g #全局安装
 ```
 
 ### cli
@@ -40,11 +41,13 @@ $ epig build # 构建项目
 
 #### plugins
 
+通过数组的形式进行配置，第一项是插件名字或自定义插件，第二项(可选)为传进插件的参数，类似babel的配置方式
+
 - **[插件列表](./docs/plugins.md)**
 
 - 类型 Array
 
-通过数组的形式进行配置，第一项是插件名字或自定义插件，第二项(可选)为传进插件的参数，类似babel的配置方式
+- example
 
 ```js
 plugins: [
@@ -54,9 +57,11 @@ plugins: [
 
 #### chainWebpack
 
+支持链式配置webpack配置，参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)
+
 - 类型 Function
 
-支持链式配置webpack配置，参考[webpack-chain](https://github.com/neutrinojs/webpack-chain)
+- example
 
 ```js
 chainWebpack(chainConfig, { webpack }) {
@@ -71,6 +76,8 @@ babel语法兼容配置,参考[@babel/preset-env](https://babeljs.io/docs/en/nex
 
 - 类型 Object
 
+- example
+
 ```js
 // 开启ie11支持
 targets: {
@@ -84,6 +91,34 @@ targets: {
 
 - 类型 Boolean
 
+- example
+
 ```js
 gzip:true
+```
+
+#### scripts
+
+将script脚本注入到html模板中，支持`head`以及`body`注入位置，支持`src`或者`content`模式;
+
+- 类型 Array
+
+```ts
+export interface ScriptEnhanceOption {
+  area?: 'head' | 'body';
+  src?: string;
+  content?: string;
+}
+```
+- example
+
+```js
+scripts: [{
+  src: 'https://as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js',
+}, {
+  content: 'window.test="test";',
+}, {
+  area: 'body',
+  content: 'window.end="end";',
+}]
 ```

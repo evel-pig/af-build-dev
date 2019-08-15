@@ -3,6 +3,7 @@ import IWebpackChainConfig from 'webpack-chain';
 import express from 'express';
 import WebpackDevServer from 'webpack-dev-server';
 import PluginApi from './PluginApi';
+import { ScriptEnhanceOption } from './webpack-plugins/webpack-plugin-script-enhance';
 
 export { Configuration } from 'webpack';
 
@@ -61,6 +62,7 @@ export interface EpigConfig extends IAFWebpackConfig {
     [key: string]: number;
   };
   gzip?: boolean;
+  scripts?: ScriptEnhanceOption[];
 }
 
 export type EventMethod<T = {}> = (fn: (args: T) => void) => void;

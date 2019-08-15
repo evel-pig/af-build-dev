@@ -19,4 +19,10 @@ module.exports = {
       },
     }]
   ],
+  scripts: [{
+    src: './test.js',
+  }, {
+    area: 'body',
+    content: 'window.end="end";',
+  }],
 }

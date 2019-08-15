@@ -1,13 +1,13 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-export interface JSEnhanceOption {
-  mode: 'head' | 'body';
+export interface ScriptEnhanceOption {
+  area?: 'head' | 'body';
   src?: string;
   content?: string;
 }
 
-export default class JSEnhance {
-  opts: JSEnhanceOption[];
+export default class ScriptEnhance {
+  opts: ScriptEnhanceOption[];
 
   constructor(opts) {
     this.opts = opts || [];
@@ -37,9 +37,13 @@ export default class JSEnhance {
                   script['innerHTML'] = opt.content;
                 }
 
-                if (opt.mode === 'head') {
+                if (!opt.area) {
+                  opt.area = 'head';
+                }
+
+                if (opt.area === 'head') {
                   data.headTags.push(script);
-                } else if (opt.mode === 'body') {
+                } else if (opt.area === 'body') {
                   data.bodyTags.push(script);
                 }
               }

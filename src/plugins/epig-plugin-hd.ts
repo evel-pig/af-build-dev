@@ -1,7 +1,7 @@
 import px2rem from 'postcss-plugin-px2rem';
 import isPlainObject from 'is-plain-object';
 import { IApi } from '../interface';
-import JSEnhance, { JSEnhanceOption } from '../webpack-plugins/webpack-plugin-js-enhance';
+import ScriptEnhance, { ScriptEnhanceOption } from '../webpack-plugins/webpack-plugin-script-enhance';
 
 export default function (api: IApi, opts: any = {}) {
   api.modifyAFWebpackOpts((memo, args) => {
@@ -25,14 +25,14 @@ export default function (api: IApi, opts: any = {}) {
 
   if (!opts.noInject) {
 
-    const enhanceOpts: JSEnhanceOption[] = [{
-      mode: 'head',
+    const enhanceOpts: ScriptEnhanceOption[] = [{
+      area: 'head',
       src: 'https://as.alipayobjects.com/g/animajs/anima-hd/5.0.0/vw.js',
     }, {
-      mode: 'head',
+      area: 'head',
       src: 'https://as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js',
     }, {
-      mode: 'head',
+      area: 'head',
       content: `
     window.vw && window.vw(${opts.px2rem && opts.px2rem.rootValue || 100}, ${opts.psdWidth || 750});
     if ('addEventListener' in document) {
@@ -45,7 +45,7 @@ export default function (api: IApi, opts: any = {}) {
     api.chainWebpackConfig(({ chainWebpack }) => {
       chainWebpack
         .plugin(`html-hd-enhance`)
-        .use(JSEnhance, [enhanceOpts]);
+        .use(ScriptEnhance, [enhanceOpts]);
     });
   }
 }
