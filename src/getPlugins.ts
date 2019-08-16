@@ -18,35 +18,39 @@ export interface Plugin {
 const builtInPlugins = [
   'afwebpack-config',
   'epig-plugin-mock',
+  'epig-plugin-html',
 ];
 
 const pluginNames = readdirSync(paths.pluginsPath)
   .filter(name => name.indexOf('.d.ts') < 0)
   .map(name => name.replace(/\.(ts|js)/, ''));
 
-export function getPluginByName(pluginName, opts = {}) {
-  let plugin;
-  if (pluginNames.includes(pluginName)) {
-    const pluginPath = resolve(paths.pluginsPath, pluginName);
+export function transformPlugin(plugin: string | Function, opts = {}) {
+  let _plugin;
+  if (typeof plugin === 'function') {
+    _plugin = {
+      id: `function:${plugin.name || Math.floor(Math.random() * 100000000)}`,
+      apply: plugin,
+      opts: opts,
+    };
+  } else if (pluginNames.includes(plugin)) {
+    const pluginPath = resolve(paths.pluginsPath, plugin);
     const apply = require(pluginPath);
-    plugin = {
-      id: pluginName,
+    _plugin = {
+      id: plugin,
       apply: apply.default || apply,
       opts: opts,
     };
   } else {
-    console.log(`Plugin ${chalk.red(pluginName)} can't be resolved.`);
+    console.log(`Plugin ${chalk.red(plugin)} can't be resolved.`);
     console.log(`Exist plugins:\n${pluginNames.join('\n')}\n`);
     process.exit(1);
   }
-  return plugin;
+  return _plugin;
 }
 
-export default function (opts: GetPluginsOpts = {}) {
-  const plugins: Plugin[] = [];
-
-  // TODO:opts.plugins插件过滤builtInPlugins;
-
+export default function getPlugins(opts: GetPluginsOpts = {}) {
+  const plugins: Record<string, Plugin> = {};
   [
     ...builtInPlugins,
     ...(opts.plugins || []),
@@ -59,22 +63,15 @@ export default function (opts: GetPluginsOpts = {}) {
     if (typeof p === 'string' || typeof p === 'function') {
       p = [p];
     }
-
     const [plugin, opts = {}] = p;
-
-    if (typeof plugin === 'string') {
-      const _plugin = getPluginByName(plugin, opts);
-      if (_plugin) {
-        plugins.push(_plugin);
+    const _plugin: Plugin = transformPlugin(plugin, opts);
+    if (_plugin) {
+      // 赋值为最新的_plugin(去重)并且保留原插件顺序;
+      if (plugins[_plugin.id]) {
+        delete plugins[_plugin.id];
       }
-    } else if (typeof plugin === 'function') {
-      plugins.push({
-        id: `function:${plugin.name || Math.floor(Math.random() * 100000000)}`,
-        apply: plugin.default || plugin,
-        opts: opts,
-      });
+      plugins[_plugin.id] = _plugin;
     }
   });
-
-  return plugins;
+  return Object.keys(plugins).map((key) => plugins[key]);
 }

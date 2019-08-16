@@ -1,1 +1,1 @@
-window.stat = "start";
+window.start = "start";

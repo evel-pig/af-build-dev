@@ -59,7 +59,7 @@ export interface EpigConfig extends IAFWebpackConfig {
   chainWebpack?: (chainWebpack: IWebpackChainConfig, { webpack }) => void;
   treeShaking?: boolean;
   targets?: {
-    [key: string]: number;
+    [key: string]: number | string;
   };
   gzip?: boolean;
   scripts?: ScriptEnhanceOption[];

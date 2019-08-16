@@ -3,30 +3,12 @@ import { resolve } from 'path';
 import { webpackHotDevClientPath } from 'af-webpack/react-dev-utils';
 import { IApi } from '../interface';
 import { paths, immitEntry } from '../utils';
-import { getPluginByName } from '../getPlugins';
 import Compression from 'compression-webpack-plugin';
 import ScriptEnhance from '../webpack-plugins/webpack-plugin-script-enhance';
 
 export default function (api: IApi, opts: any = {}) {
   const isDev = process.env.NODE_ENV === 'development';
   const { targets = {}, treeShaking, gzip, scripts = [] } = api.service.config;
-
-  function checkHtml() {
-    const { plugins } = api.service;
-    let existHtmlPlugin = false;
-    for (let i = 0; i < plugins.length; i++) {
-      const plugin = plugins[i];
-      if (plugin.id === 'epig-plugin-html') {
-        existHtmlPlugin = true;
-        break;
-      }
-    }
-    return existHtmlPlugin;
-  }
-
-  if (!checkHtml()) {
-    api.registerPlugin(getPluginByName('epig-plugin-html'));
-  }
 
   api.modifyAFWebpackOpts((memo, args) => {
     return {

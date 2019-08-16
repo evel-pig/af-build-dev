@@ -3,7 +3,7 @@ import { existsSync, mkdirSync } from 'fs';
 import { removeSync } from 'fs-extra';
 import isPlainObject from 'is-plain-object';
 import { IApi } from '../../interface';
-import { getPluginByName } from '../../getPlugins';
+import { transformPlugin } from '../../getPlugins';
 import adminEntry from './admin-entry';
 import adminRoute from './admin-route';
 
@@ -31,11 +31,11 @@ export default function (api: IApi, opts: any = {}) {
   }
 
   if (!opts.noAutoCopy) {
-    api.registerPlugin(getPluginByName('epig-plugin-copy-server'));
+    api.registerPlugin(transformPlugin('epig-plugin-copy-server'));
   }
 
   if (!opts.noSplitChunks) {
-    api.registerPlugin(getPluginByName('epig-plugin-split-chunks', {
+    api.registerPlugin(transformPlugin('epig-plugin-split-chunks', {
       cacheGroups: {
         // 抽离node_modules中非@epig的模块
         vendor: {
