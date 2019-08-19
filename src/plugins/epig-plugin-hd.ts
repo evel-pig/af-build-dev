@@ -28,9 +28,11 @@ export default function (api: IApi, opts: any = {}) {
     const enhanceOpts: ScriptEnhanceOption[] = [{
       area: 'head',
       src: 'https://as.alipayobjects.com/g/animajs/anima-hd/5.0.0/vw.js',
+      verify: p => p.mode !== 'pc',
     }, {
       area: 'head',
       src: 'https://as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js',
+      verify: p => p.mode !== 'pc',
     }, {
       area: 'head',
       content: `
@@ -40,6 +42,7 @@ export default function (api: IApi, opts: any = {}) {
         FastClick.attach(document.body);
       }, false);
     }`,
+      verify: p => p.mode !== 'pc',
     }];
 
     api.chainWebpackConfig(({ chainWebpack }) => {

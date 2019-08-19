@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 50px">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script type="text/javascript" src="https://as.alipayobjects.com/g/animajs/anima-hd/5.0.0/vw.js"></script>
+  <script type="text/javascript" src="https://as.alipayobjects.com/g/component/fastclick/1.0.6/fastclick.js"></script>
+  <script type="text/javascript">
+    window.vw && window.vw(<%= htmlWebpackPlugin.options.px2remRootValue %>, <%= htmlWebpackPlugin.options.psdWidth %>);
+    if ('addEventListener' in document) {
+      document.addEventListener('DOMContentLoaded', function () {
+        FastClick.attach(document.body);
+      }, false);
+    }
+  </script>
+</head>
+
+<body style="font-size:30px">
+  <div id="root"></div>
+</body>
+
+</html>

@@ -4,6 +4,7 @@ export interface ScriptEnhanceOption {
   area?: 'head' | 'body';
   src?: string;
   content?: string;
+  verify?: (opt: any) => boolean;
 }
 
 export default class ScriptEnhance {
@@ -23,6 +24,12 @@ export default class ScriptEnhance {
           (data, cb) => {
 
             this.opts.forEach(opt => {
+              if (opt.verify) {
+                const valid = opt.verify(data.plugin.options);
+                if (!valid) {
+                  return;
+                }
+              }
               if (opt.src || opt.content) {
                 const script = {
                   tagName: 'script',
