@@ -66,7 +66,7 @@ export default function getPlugins(opts: GetPluginsOpts = {}) {
     const [plugin, opts = {}] = p;
     const _plugin: Plugin = transformPlugin(plugin, opts);
     if (_plugin) {
-      // 赋值为最新的_plugin(去重)并且保留原插件顺序;
+      // 删除原插件并且保留新插件顺序;
       if (plugins[_plugin.id]) {
         delete plugins[_plugin.id];
       }

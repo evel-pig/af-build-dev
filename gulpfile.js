@@ -17,7 +17,7 @@ function tsc(cb) {
     .pipe(tsProject());
 
   merge([
-    tsResult.dts.pipe(gulp.dest('lib')),
+    // tsResult.dts.pipe(gulp.dest('lib')), // 生成.d.ts类型文件
     tsResult.js.pipe(gulp.dest('lib'))
   ]);
   cb();

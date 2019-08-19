@@ -20,7 +20,7 @@ module.exports = {
     }]
   ],
   scripts: [{
-    src: './test.js',
+    src: './start.js',
   }, {
     area: 'body',
     content: 'window.end="end";',

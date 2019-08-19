@@ -57,7 +57,7 @@ export default class PluginApi {
       // modify类的会传递memo,fn第一个参数为memo，且fn必须返回memo;
       if (type === this.API_TYPE.MODIFY) {
         this.register(name, opts => {
-          return typeof args[0] === 'function' ? args[0](opts.memo, opts.args) : args[0];
+          return args[0](opts.memo, opts.args);
         });
       } else if (type === this.API_TYPE.EVENT) {
         this.register(name, opts => {
