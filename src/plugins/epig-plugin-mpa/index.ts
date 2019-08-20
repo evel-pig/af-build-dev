@@ -52,6 +52,11 @@ export default function (api: IApi, opts: any[] = []) {
             name: 'vendors',
             chunks: 'all',
           },
+          commons: {
+            name: 'commons',
+            chunks: 'async',
+            minChunks: 2,
+          },
         },
       }));
     }
