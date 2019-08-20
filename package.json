@@ -9,7 +9,9 @@
     "test": "jest",
     "push": "git push && git push --tags",
     "patch": "npm run build && npm version patch",
-    "pub": "npm run patch && npm publish && npm run push"
+    "minor": "npm run build && npm version minor",
+    "pub:patch": "npm run patch && npm publish && npm run push",
+    "pub:minor": "npm run minor && npm publish && npm run push"
   },
   "husky": {
     "hooks": {
