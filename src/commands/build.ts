@@ -1,9 +1,13 @@
 import build from 'af-webpack/build';
+import yParser from 'yargs-parser';
 import Service from '../Service';
+import { buildDevOpts } from '../utils';
 
 process.env.NODE_ENV = 'production';
 
-const service = new Service();
+const args = yParser(process.argv.slice(2));
+
+const service = new Service(buildDevOpts(args));
 
 service.init();
 

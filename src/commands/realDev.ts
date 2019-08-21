@@ -1,5 +1,7 @@
 import dev from 'af-webpack/dev';
+import yParser from 'yargs-parser';
 import Service from '../Service';
+import { buildDevOpts } from '../utils';
 
 let closed = false;
 
@@ -20,7 +22,9 @@ function onSignal(type?) {
 
 process.env.NODE_ENV = 'development';
 
-const service = new Service();
+const args = yParser(process.argv.slice(2));
+
+const service = new Service(buildDevOpts(args));
 
 service.init();
 

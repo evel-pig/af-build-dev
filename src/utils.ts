@@ -38,3 +38,12 @@ export function immitEntry(entry, pkg = []) {
   }
   return newEntry;
 }
+
+export function buildDevOpts(opts: any = {}) {
+  const _opts = {};
+  const rcPath = opts.c || opts.config;
+  if (rcPath) {
+    _opts['rcPath'] = rcPath;
+  }
+  return _opts;
+}
