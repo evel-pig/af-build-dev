@@ -101,7 +101,7 @@ template默认读取使用项目`./public/index.html`或者`./template/index.htm
 | NAME | NOTES | TYPE | DEFAULT_VALUE | REQUIRED |
 | --- | --- | --- | --- | --- | 
 | entry | 入口文件 | string | null | true |
-| name | html文件名(不可以重复) | string | 根据entry获取的上一级目录名 | false |
+| htmlName | html文件名(不可以重复) | string | 根据entry获取的上一级目录名 | false |
 | mode | 配置wap端或者pc应用 | `wap`或`pc` | `wap` | false |
 
 ```js

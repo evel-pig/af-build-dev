@@ -9,9 +9,10 @@ export default function (api: IApi, opts: any[] = []) {
     const htmlConfig = [];
 
     opts.forEach(page => {
-      const { name, entry, ...rest } = page;
-      const _name = name || entry.split('/').slice(-2)[0];
-      entrys[_name] = [resolve(entry)];
+      const { htmlName, entry, ...rest } = page;
+
+      const entryName = entry.split('/').slice(-2)[0];
+      entrys[entryName] = [resolve(entry)];
 
       const mode = rest.mode || 'wap';
       if (mode !== 'wap' && mode !== 'pc') {
@@ -19,15 +20,14 @@ export default function (api: IApi, opts: any[] = []) {
       }
 
       htmlConfig.push({
-        chunks: ['vendors', _name],
+        chunks: ['vendors', 'commons', entryName],
         mode: 'wap',
-        filename: `${_name}.html`,
+        filename: `${htmlName || entryName}.html`,
         template: resolve(__dirname, `template/mpa-${mode}.ejs`),
         px2remRootValue: 100,
         psdWidth: 750,
         ...rest,
       });
-
     });
     return { entrys, htmlConfig };
   }
@@ -61,6 +61,6 @@ export default function (api: IApi, opts: any[] = []) {
       }));
     }
   } else {
-    throw new Error(`epig-plugin-map 配置项参数应为 Array 格式`);
+    throw new Error(`epig-plugin-mpa 配置项参数应为 Array 格式`);
   }
 }
