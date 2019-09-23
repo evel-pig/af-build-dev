@@ -29,6 +29,8 @@ $ epig build # 构建项目
 | PROT | 服务器端口 | 8000 |
 | ANALYZE | `webpack-bundle-analyzer`插件开关 | undefined |
 | SPEED_MEASURE | `speed-measure-webpack-plugin`插件开关 | undefined |
+| COMPORESS | 压缩混淆js文件选项 | undefined |
+| POLYFILL | babel polyfill 选项 | undefined |
 
 ### .webpackrc.js 配置项
 参考[af-webpack](https://umijs.org/zh/config/#webpack)中的webpack配置项，推荐在`.epigrc.js`文件中配置

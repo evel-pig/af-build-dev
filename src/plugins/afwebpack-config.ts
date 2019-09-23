@@ -8,6 +8,8 @@ import ScriptEnhance from '../webpack-plugins/webpack-plugin-script-enhance';
 
 export default function (api: IApi, opts: any = {}) {
   const isDev = process.env.NODE_ENV === 'development';
+  const noPolyfill = process.env.POLYFILL === 'none';
+
   const { targets = {}, treeShaking, gzip, scripts = [] } = api.service.config;
 
   api.modifyAFWebpackOpts((memo, args) => {
@@ -99,7 +101,7 @@ export default function (api: IApi, opts: any = {}) {
   api.modifyWebpackConfig((memo) => {
 
     memo.entry = immitEntry(memo.entry, [
-      resolve(paths.epigPublicPath, 'polyfill.js'),
+      ...(noPolyfill ? [] : resolve(paths.epigPublicPath, 'polyfill.js')),
       ...(isDev ? [webpackHotDevClientPath] : []),
     ]);
 
