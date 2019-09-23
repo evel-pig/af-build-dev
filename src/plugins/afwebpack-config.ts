@@ -101,7 +101,7 @@ export default function (api: IApi, opts: any = {}) {
   api.modifyWebpackConfig((memo) => {
 
     memo.entry = immitEntry(memo.entry, [
-      ...(noPolyfill ? [] : resolve(paths.epigPublicPath, 'polyfill.js')),
+      ...(!noPolyfill ? [resolve(paths.epigPublicPath, 'polyfill.js')] : []),
       ...(isDev ? [webpackHotDevClientPath] : []),
     ]);
 
