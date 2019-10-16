@@ -1,12 +1,14 @@
 import * as React from 'react';
 
 export interface IInfoProps {
+  options: any;
 }
 
-export default function Info (props: IInfoProps) {
+export default function Info(props: IInfoProps) {
   return (
     <div>
-      info
+      info:
+      <div>{JSON.stringify(props.options)}</div>
     </div>
   );
 }
