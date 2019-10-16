@@ -35,7 +35,7 @@ export default function (api: IApi, opts: any = {}) {
           },
           env: {
             useBuiltIns: 'entry',
-            corejs: 3,
+            corejs: 2,
             ...(treeShaking ? { modules: false } : {}),
           },
         }],
