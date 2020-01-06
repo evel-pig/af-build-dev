@@ -1,6 +1,6 @@
 # af-build-dev
 
-> 基于[af-webpack](https://github.com/umijs/umi/tree/master/packages/af-webpack)的前端构建编译工具，可零配置开箱使用
+> @epig/af-build-dev是在[af-webpack](https://github.com/umijs/umi/tree/master/packages/af-webpack)基础上扩展，参考[umi-build-dev](https://github.com/umijs/umi/tree/master/packages/umi-build-dev)实现的前端项目构建工程化解决方案。
 
 ## usage
 
